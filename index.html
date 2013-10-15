@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Fallfling2013 by thebigspoon</title>
+    <title>A HowTo About A HowTo: The Python GDAL/OGR Cookbook by thebigspoon</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -16,8 +16,8 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header">Fallfling2013</h1>
-        <p class="header">CUGOS 2013 Fall Fling: HowTo for Python GDAL/OGR Binding Cookbook</p>
+        <h1 class="header">A HowTo About A HowTo: The Python GDAL/OGR Cookbook</h1>
+        <p class="header">CUGOS 2013 Fall Fling Smackdown</p>
 
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/thebigspoon/fallfling2013/zipball/master">Download ZIP</a></li>
@@ -30,17 +30,40 @@
 
       </header>
       <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h1>
+<a name="welcome-to-the-smackdown" class="anchor" href="#welcome-to-the-smackdown"><span class="octicon octicon-link"></span></a>Welcome to the Smackdown!</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Let's learn how we can use <a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Pierce County's awesome Python GDAL/OGR Cookbook</a>. But first, let's install a bunch of junk on your computer if it's not already there.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<h2>
+<a name="tooling-installs-data" class="anchor" href="#tooling-installs-data"><span class="octicon octicon-link"></span></a>Tooling, Installs, Data</h2>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>Some of the tools we'll use today to explore the cookbook include:</p>
+
+<ol>
+<li>
+<strong>Shell</strong>  # Windows people can use CMD, PowerShell or GitBash ( see below )</li>
+<li><strong>Python</strong></li>
+<li><strong>GDAL/OGR Library and Python Bindings</strong></li>
+<li>
+<a href="http://mapfart.com">Mapfart.bom</a> or <strong>QGIS</strong>  # to visualize the input/outputs</li>
+<li>
+<strong>PostGIS</strong>  # if you care about database support</li>
+<li>
+<strong>Shapefiles</strong>  # i got mine from <a href="http://www5.kingcounty.gov/gisdataportal/Default.aspx">King County GIS Portal</a>
+</li>
+</ol><p>We will <strong>not</strong> be walking people through installs. Installs depend on the operating system you are running among other factors. So here's a list of places to get started depending on your operating system:</p>
+
+<h4>
+<a name="windows" class="anchor" href="#windows"><span class="octicon octicon-link"></span></a>Windows</h4>
+
+<p>There's no particular reason to use <a href="http://code.google.com/p/msysgit/downloads/list?q=label:Featured">GitBash</a>  these examples. Using CMD or PowerShell in Windows is fine. Most of the time we will just be running <code>python</code> commands. But sometimes we might be running commands that look unfamiliar. If you want to explore a Linux-type shell environment than <a href="http://code.google.com/p/msysgit/downloads/list?q=label:Featured">GitBash</a> is a good place to start</p>
+
+<h4>
+<a name="mac" class="anchor" href="#mac"><span class="octicon octicon-link"></span></a>Mac</h4>
+
+<h4>
+<a name="linux--debian-and-ubuntu-" class="anchor" href="#linux--debian-and-ubuntu-"><span class="octicon octicon-link"></span></a>Linux ( Debian and Ubuntu )</h4>
 
 <h3>
 <a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
