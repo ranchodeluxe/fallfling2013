@@ -17,6 +17,8 @@ We will **not** be walking people through installs. Installs depend on the
 operating system you are running among other factors. So here's a list of places 
 to get started depending on your operating system:
 
+----
+
 #### Windows
 There's no particular reason to use 
 [GitBash](http://code.google.com/p/msysgit/downloads/list?q=label:Featured) 
@@ -28,10 +30,12 @@ then [GitBash](http://code.google.com/p/msysgit/downloads/list?q=label:Featured)
 is a good place to start.
 
 Luckily Python, GDAL/OGR ( w/ Python bindings ) and QGIS can all be installed 
-in one shot with (OSGeo4W)[http://trac.osgeo.org/osgeo4w/wiki]. 
+in one shot with [OSGeo4W](http://trac.osgeo.org/osgeo4w/wiki).
 
 PostGIS can be installed as a plugin after you install the [Postgresql database
 with this sweet GUI installer](http://www.postgresql.org/download/windows/).
+
+----
 
 #### Mac
 Specific GDAL install instructions can be found 
@@ -39,6 +43,8 @@ Specific GDAL install instructions can be found
 That tutorial references 
 [this repository](http://www.kyngchaos.com/software:frameworks) 
 where you can find QGIS and PostGIS among a number of other GIS installs for Mac.
+
+----
 
 #### Linux ( Debian and Ubuntu )
 If you are into using packages then you probably want to use 
@@ -120,14 +126,87 @@ sudo ldconfig
 ```
 
 -----
------
 
 ## Cookbook Handling Techniques
-Now that everything is installed, let's see how easy it is to use the cookbook examples:
+Now that everything is installed, let's see how easy it is to use the 
+cookbook examples.
 
 ### Python Shell ( Exploratory Hack )
+If you are not familiar with Python, then running the Python shell might be new. 
+The Python shell is an interactive way to explore the code you write while 
+writing it. We can learn
+a lot about the OGR bindings by writing our examples line-by-line in the shell:
 
+1. Navigate to the [start of the cookbook](http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html)
+and choose a simple example such
+as the one about 
+[creating a geometry object from WKT](http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-geometry-from-wkt).
+
+2. Go to your shell and type `python` so it boots into the Python shell ( you should see something like similar to below ):
+
+    ```
+    Python 2.7.3 (default, Aug  1 2012, 05:14:39) 
+    [GCC 4.6.3] on linux2
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>>
+    ```
+
+3. Start copying the example line-by-line and hit return at the end of each line.
+You can also copy and paste the whole example, but writing it out might
+help you remember it better
+
+
+4. You can explore each OGR object using help() command:
+
+    ```
+    >>> from osgeo import ogr
+    >>> wkt = "POINT (1120351.5712494177 741921.4223245403)"
+    >>> point = ogr.CreateGeometryFromWkt(wkt)
+    >>> type( point  )
+    <class 'osgeo.ogr.Geometry'>
+    >>> help( point )
+
+    Help on Geometry in module osgeo.ogr object:
+
+    class Geometry(__builtin__.object)
+     |  Proxy of C++ OGRGeometryShadow class
+     |  
+     |  Methods defined here:
+     |  
+     |  AddGeometry(self, *args)
+     |      AddGeometry(self, Geometry other) -> OGRErr
+     |  
+     |  AddGeometryDirectly(self, *args)
+     |      AddGeometryDirectly(self, Geometry other_disown) -> OGRErr
+     |  
+     |  AddPoint(self, *args, **kwargs)
+     |      AddPoint(self, double x, double y, double z = 0)
+     |  
+     |  AddPoint_2D(self, *args)
+     |      AddPoint_2D(self, double x, double y)
+     |  
+     |  AssignSpatialReference(self, *args)
+     |      AssignSpatialReference(self, SpatialReference reference)
+     |    
+
+     ...output truncated...
+     ```
+
+
+5. I see there's an AddPoint method on my geometry object. Let's see what we break:
+
+    ```
+    >>> point.ExportToWkt()
+    'POINT (-24323 2342 0)'
+    >>> point.AddPoint( -9999, 99999 )
+    >>> point.ExportToWkt()
+    'POINT (-9999 99999 0)'
+    ```
+
+Looks like that overrides our initial geometry. That's not good!
+ 
 ### Python Scripts ( One Offs )
+We can also take the examples from the cookbook and run them
 
 ### Python Scripts ( Add Args )
 
@@ -140,7 +219,11 @@ http://gdal.org/python/
 
 ### Layers 
 
+### Features, Geometry Fields
+
 ### Projections
+
+####  Show Me Something Cool
 
 ### Tricks, Trapdoors, Gotchas
 http://trac.osgeo.org/gdal/wiki/PythonGotchas
