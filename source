@@ -1,0 +1,157 @@
+# Welcome to the Smackdown!
+Let's learn how we can use 
+[Pierce County's awesome Python GDAL/OGR Cookbook](http://pcjericks.github.io/py-gdalogr-cookbook/). 
+But first, let's install a bunch of junk on your computer if it's not already there.
+
+## Tooling, Installs, Data
+Some tools we'll use today to explore the cookbook include:
+
+0. **Shell**  # Windows people can use CMD, PowerShell or GitBash ( see below ). Mac users have Terminal
+1. **Python**
+2. **GDAL/OGR Library and Python Bindings**
+3. [Mapfart.com](http://mapfart.com) or **QGIS**  # to visualize the input/outputs
+4. **Shapefiles**  # i got mine from [King County GIS Portal](http://www5.kingcounty.gov/gisdataportal/Default.aspx)
+5. **PostGIS**  # if you care about database support
+
+We will **not** be walking people through installs. Installs depend on the 
+operating system you are running among other factors. So here's a list of places 
+to get started depending on your operating system:
+
+#### Windows
+There's no particular reason to use 
+[GitBash](http://code.google.com/p/msysgit/downloads/list?q=label:Featured) 
+for these examples. Using CMD or PowerShell in Windows is fine. 
+Most of the time we will just be running `python <script_name>` commands. 
+But sometimes we might be running shell commands that look unfamiliar. 
+If you want to explore a Linux-type shell environment 
+then [GitBash](http://code.google.com/p/msysgit/downloads/list?q=label:Featured) 
+is a good place to start.
+
+Luckily Python, GDAL/OGR ( w/ Python bindings ) and QGIS can all be installed 
+in one shot with (OSGeo4W)[http://trac.osgeo.org/osgeo4w/wiki]. 
+
+PostGIS can be installed as a plugin after you install the [Postgresql database
+with this sweet GUI installer](http://www.postgresql.org/download/windows/).
+
+#### Mac
+Specific GDAL install instructions can be found 
+[here](http://www.kyngchaos.com/software:frameworks). 
+That tutorial references 
+[this repository](http://www.kyngchaos.com/software:frameworks) 
+where you can find QGIS and PostGIS among a number of other GIS installs for Mac.
+
+#### Linux ( Debian and Ubuntu )
+If you are into using packages then you probably want to use 
+the [UbuntuGIS PPA](https://wiki.ubuntu.com/UbuntuGIS).
+
+If you like to run `config, make, make install` stuff then:
+
+```bash
+#
+# get subversion, git
+#
+$ sudo apt-get install subversion git
+
+#
+# get gcc components and build tools
+#
+$ sudo apt-get install build-essential libtool automake binutils
+
+#
+# python tools
+#
+$ sudo apt-get install python-setuptools python-dev python-psycopg2 python-virtualenv
+
+
+#
+#  PROJ4
+#
+mkdir -p /usr/local/src/proj
+cd /usr/local/src/proj
+wget http://download.osgeo.org/proj/proj-4.7.0.tar.gz # or the one you want
+tar -xzvf proj-4.7.0.tar.gz
+cd proj-4.7.0/nad
+wget http://download.osgeo.org/proj/proj-datumgrid-1.5.zip
+sudo apt-get install zip
+unzip proj-datumgrid-1.5.zip
+rm proj-datumgrid-1.5.zip
+cd ..
+./configure
+make
+sudo make install
+sudo ldconfig
+
+# you'll probably need to define some more projections
+vim /usr/local/share/proj/epsg
+# add the following projections to the end of the file
+# google spherical mercator
+<900913> +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs  <>
+# custom esri projection from http://spatialreference.org/ref/esri/102761/
+<9102761> +proj=lcc +lat_1=18.03333333333334 +lat_2=18.43333333333333 +lat_0=17.83333333333333 +lon_0=-66.43333333333334 +x_0=200000 +y_0=200000 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs  <>
+
+#
+#  GEOS
+#
+mkdir -p /usr/local/src/geos
+cd /usr/local/src/geos
+wget http://download.osgeo.org/geos/geos-3.3.1.tar.bz2 # or the one you want
+tar -xjvf geos-3.3.1.tar.bz2
+cd geos-3.3.1
+./configure
+make
+sudo make install
+sudo ldconfig
+
+
+#
+#  GDAL/OGR
+#
+mkdir -p /usr/local/src/gdal
+cd /usr/local/src/gdal
+# Release
+wget http://download.osgeo.org/gdal/gdal-1.8.1.tar.gz # or the one you want
+tar -xzvf gdal-*.tar.gz
+rm gdal-*.tar.gz
+cd gdal-*
+./configure --with-python --with-threads --with-pg --with-geos=yes
+make
+sudo make install
+sudo ldconfig
+```
+
+-----
+-----
+
+## Cookbook Handling Techniques
+Now that everything is installed, let's see how easy it is to use the cookbook examples:
+
+### Python Shell ( Exploratory Hack )
+
+### Python Scripts ( One Offs )
+
+### Python Scripts ( Add Args )
+
+## OGR, DataSources, Layers -- Oh My! 
+http://gdal.org/python/
+
+### OGR Namespaced Functions
+
+### DataSources
+
+### Layers 
+
+### Projections
+
+### Tricks, Trapdoors, Gotchas
+http://trac.osgeo.org/gdal/wiki/PythonGotchas
+
+## Giving Back: Contributing to the Cookbook
+
+### Clone
+
+### Revise
+
+### Send Pull Request
+
+### Authors and Contributors
+Thanks to the developers at Pierce County GIS @jericks, Cort Daniels, Michael Payne. Thanks to Greg Corradini for putting this together last minute like.
