@@ -33,57 +33,190 @@
         <h1>
 <a name="welcome-to-the-smackdown" class="anchor" href="#welcome-to-the-smackdown"><span class="octicon octicon-link"></span></a>Welcome to the Smackdown!</h1>
 
-<p>Let's learn how we can use <a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Pierce County's awesome Python GDAL/OGR Cookbook</a>. But first, let's install a bunch of junk on your computer if it's not already there.</p>
+<p>Let's learn how we can use 
+<a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Pierce County's awesome Python GDAL/OGR Cookbook</a>. 
+But first, let's install a bunch of junk on your computer if it's not already there.</p>
 
 <h2>
 <a name="tooling-installs-data" class="anchor" href="#tooling-installs-data"><span class="octicon octicon-link"></span></a>Tooling, Installs, Data</h2>
 
-<p>Some of the tools we'll use today to explore the cookbook include:</p>
+<p>Some tools we'll use today to explore the cookbook include:</p>
 
 <ol>
 <li>
-<strong>Shell</strong>  # Windows people can use CMD, PowerShell or GitBash ( see below )</li>
+<strong>Shell</strong>  # Windows people can use CMD, PowerShell or GitBash ( see below ). Mac users have Terminal</li>
 <li><strong>Python</strong></li>
 <li><strong>GDAL/OGR Library and Python Bindings</strong></li>
 <li>
-<a href="http://mapfart.com">Mapfart.bom</a> or <strong>QGIS</strong>  # to visualize the input/outputs</li>
-<li>
-<strong>PostGIS</strong>  # if you care about database support</li>
+<a href="http://mapfart.com">Mapfart.com</a> or <strong>QGIS</strong>  # to visualize the input/outputs</li>
 <li>
 <strong>Shapefiles</strong>  # i got mine from <a href="http://www5.kingcounty.gov/gisdataportal/Default.aspx">King County GIS Portal</a>
 </li>
-</ol><p>We will <strong>not</strong> be walking people through installs. Installs depend on the operating system you are running among other factors. So here's a list of places to get started depending on your operating system:</p>
+<li>
+<strong>PostGIS</strong>  # if you care about database support</li>
+</ol><p>We will <strong>not</strong> be walking people through installs. Installs depend on the 
+operating system you are running among other factors. So here's a list of places 
+to get started depending on your operating system:</p>
 
 <h4>
 <a name="windows" class="anchor" href="#windows"><span class="octicon octicon-link"></span></a>Windows</h4>
 
-<p>There's no particular reason to use <a href="http://code.google.com/p/msysgit/downloads/list?q=label:Featured">GitBash</a>  these examples. Using CMD or PowerShell in Windows is fine. Most of the time we will just be running <code>python</code> commands. But sometimes we might be running commands that look unfamiliar. If you want to explore a Linux-type shell environment than <a href="http://code.google.com/p/msysgit/downloads/list?q=label:Featured">GitBash</a> is a good place to start</p>
+<p>There's no particular reason to use 
+<a href="http://code.google.com/p/msysgit/downloads/list?q=label:Featured">GitBash</a> 
+for these examples. Using CMD or PowerShell in Windows is fine. 
+Most of the time we will just be running <code>python &lt;script_name&gt;</code> commands. 
+But sometimes we might be running shell commands that look unfamiliar. 
+If you want to explore a Linux-type shell environment 
+then <a href="http://code.google.com/p/msysgit/downloads/list?q=label:Featured">GitBash</a> 
+is a good place to start.</p>
+
+<p>Luckily Python, GDAL/OGR ( w/ Python bindings ) and QGIS can all be installed 
+in one shot with (OSGeo4W)[<a href="http://trac.osgeo.org/osgeo4w/wiki">http://trac.osgeo.org/osgeo4w/wiki</a>]. </p>
+
+<p>PostGIS can be installed as a plugin after you install the <a href="http://www.postgresql.org/download/windows/">Postgresql database
+with this sweet GUI installer</a>.</p>
 
 <h4>
 <a name="mac" class="anchor" href="#mac"><span class="octicon octicon-link"></span></a>Mac</h4>
 
+<p>Specific GDAL install instructions can be found 
+<a href="http://www.kyngchaos.com/software:frameworks">here</a>. 
+That tutorial references 
+<a href="http://www.kyngchaos.com/software:frameworks">this repository</a> 
+where you can find QGIS and PostGIS among a number of other GIS installs for Mac.</p>
+
 <h4>
 <a name="linux--debian-and-ubuntu-" class="anchor" href="#linux--debian-and-ubuntu-"><span class="octicon octicon-link"></span></a>Linux ( Debian and Ubuntu )</h4>
 
+<p>If you are into using packages then you probably want to use 
+the <a href="https://wiki.ubuntu.com/UbuntuGIS">UbuntuGIS PPA</a>.</p>
+
+<p>If you like to run <code>config, make, make install</code> stuff then:</p>
+
+<div class="highlight highlight-bash"><pre><span class="c">#</span>
+<span class="c"># get subversion, git</span>
+<span class="c">#</span>
+<span class="nv">$ </span>sudo apt-get install subversion git
+
+<span class="c">#</span>
+<span class="c"># get gcc components and build tools</span>
+<span class="c">#</span>
+<span class="nv">$ </span>sudo apt-get install build-essential libtool automake binutils
+
+<span class="c">#</span>
+<span class="c"># python tools</span>
+<span class="c">#</span>
+<span class="nv">$ </span>sudo apt-get install python-setuptools python-dev python-psycopg2 python-virtualenv
+
+
+<span class="c">#</span>
+<span class="c">#  PROJ4</span>
+<span class="c">#</span>
+mkdir -p /usr/local/src/proj
+<span class="nb">cd</span> /usr/local/src/proj
+wget http://download.osgeo.org/proj/proj-4.7.0.tar.gz <span class="c"># or the one you want</span>
+tar -xzvf proj-4.7.0.tar.gz
+<span class="nb">cd </span>proj-4.7.0/nad
+wget http://download.osgeo.org/proj/proj-datumgrid-1.5.zip
+sudo apt-get install zip
+unzip proj-datumgrid-1.5.zip
+rm proj-datumgrid-1.5.zip
+<span class="nb">cd</span> ..
+./configure
+make
+sudo make install
+sudo ldconfig
+
+<span class="c"># you'll probably need to define some more projections</span>
+vim /usr/local/share/proj/epsg
+<span class="c"># add the following projections to the end of the file</span>
+<span class="c"># google spherical mercator</span>
+&lt;900913&gt; +proj<span class="o">=</span>merc +a<span class="o">=</span>6378137 +b<span class="o">=</span>6378137 +lat_ts<span class="o">=</span>0.0 +lon_0<span class="o">=</span>0.0 +x_0<span class="o">=</span>0.0 +y_0<span class="o">=</span>0 +k<span class="o">=</span>1.0 +units<span class="o">=</span>m +nadgrids<span class="o">=</span>@null +wktext  +no_defs  &lt;&gt;
+<span class="c"># custom esri projection from http://spatialreference.org/ref/esri/102761/</span>
+&lt;9102761&gt; +proj<span class="o">=</span>lcc +lat_1<span class="o">=</span>18.03333333333334 +lat_2<span class="o">=</span>18.43333333333333 +lat_0<span class="o">=</span>17.83333333333333 +lon_0<span class="o">=</span>-66.43333333333334 +x_0<span class="o">=</span>200000 +y_0<span class="o">=</span>200000 +ellps<span class="o">=</span>GRS80 +datum<span class="o">=</span>NAD83 +to_meter<span class="o">=</span>0.3048006096012192 +no_defs  &lt;&gt;
+
+<span class="c">#</span>
+<span class="c">#  GEOS</span>
+<span class="c">#</span>
+mkdir -p /usr/local/src/geos
+<span class="nb">cd</span> /usr/local/src/geos
+wget http://download.osgeo.org/geos/geos-3.3.1.tar.bz2 <span class="c"># or the one you want</span>
+tar -xjvf geos-3.3.1.tar.bz2
+<span class="nb">cd </span>geos-3.3.1
+./configure
+make
+sudo make install
+sudo ldconfig
+
+
+<span class="c">#</span>
+<span class="c">#  GDAL/OGR</span>
+<span class="c">#</span>
+mkdir -p /usr/local/src/gdal
+<span class="nb">cd</span> /usr/local/src/gdal
+<span class="c"># Release</span>
+wget http://download.osgeo.org/gdal/gdal-1.8.1.tar.gz <span class="c"># or the one you want</span>
+tar -xzvf gdal-*.tar.gz
+rm gdal-*.tar.gz
+<span class="nb">cd </span>gdal-*
+./configure --with-python --with-threads --with-pg --with-geos<span class="o">=</span>yes
+make
+sudo make install
+sudo ldconfig
+</pre></div>
+
+<hr><hr><h2>
+<a name="cookbook-handling-techniques" class="anchor" href="#cookbook-handling-techniques"><span class="octicon octicon-link"></span></a>Cookbook Handling Techniques</h2>
+
+<p>Now that everything is installed, let's see how easy it is to use the cookbook examples:</p>
+
 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<a name="python-shell--exploratory-hack-" class="anchor" href="#python-shell--exploratory-hack-"><span class="octicon octicon-link"></span></a>Python Shell ( Exploratory Hack )</h3>
 
 <h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<a name="python-scripts--one-offs-" class="anchor" href="#python-scripts--one-offs-"><span class="octicon octicon-link"></span></a>Python Scripts ( One Offs )</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<h3>
+<a name="python-scripts--add-args-" class="anchor" href="#python-scripts--add-args-"><span class="octicon octicon-link"></span></a>Python Scripts ( Add Args )</h3>
+
+<h2>
+<a name="ogr-datasources-layers----oh-my" class="anchor" href="#ogr-datasources-layers----oh-my"><span class="octicon octicon-link"></span></a>OGR, DataSources, Layers -- Oh My!</h2>
+
+<p><a href="http://gdal.org/python/">http://gdal.org/python/</a></p>
+
+<h3>
+<a name="ogr-namespaced-functions" class="anchor" href="#ogr-namespaced-functions"><span class="octicon octicon-link"></span></a>OGR Namespaced Functions</h3>
+
+<h3>
+<a name="datasources" class="anchor" href="#datasources"><span class="octicon octicon-link"></span></a>DataSources</h3>
+
+<h3>
+<a name="layers" class="anchor" href="#layers"><span class="octicon octicon-link"></span></a>Layers</h3>
+
+<h3>
+<a name="projections" class="anchor" href="#projections"><span class="octicon octicon-link"></span></a>Projections</h3>
+
+<h3>
+<a name="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas"><span class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h3>
+
+<p><a href="http://trac.osgeo.org/gdal/wiki/PythonGotchas">http://trac.osgeo.org/gdal/wiki/PythonGotchas</a></p>
+
+<h2>
+<a name="giving-back-contributing-to-the-cookbook" class="anchor" href="#giving-back-contributing-to-the-cookbook"><span class="octicon octicon-link"></span></a>Giving Back: Contributing to the Cookbook</h2>
+
+<h3>
+<a name="clone" class="anchor" href="#clone"><span class="octicon octicon-link"></span></a>Clone</h3>
+
+<h3>
+<a name="revise" class="anchor" href="#revise"><span class="octicon octicon-link"></span></a>Revise</h3>
+
+<h3>
+<a name="send-pull-request" class="anchor" href="#send-pull-request"><span class="octicon octicon-link"></span></a>Send Pull Request</h3>
 
 <h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Thanks to the developers at Pierce County GIS <a href="https://github.com/jericks" class="user-mention">@jericks</a>, Cort Daniels, Michael Payne. Thanks to Greg Corradini for putting this together last minute like.</p>
       </section>
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
