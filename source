@@ -6,7 +6,7 @@ But first, let's install a bunch of junk on your computer if it's not already th
 ## Tooling, Installs, Data
 Some tools we'll use today to explore the cookbook include:
 
-0. **Shell**  # Windows people can use CMD, PowerShell or GitBash ( see below ). Mac users have Terminal
+0. **Shell**  # Windows users have CMD, PowerShell or GitBash ( see below ). Terminal for Mac
 1. **Python**
 2. **GDAL/OGR Library and Python Bindings**
 3. [Mapfart.com](http://mapfart.com) or **QGIS**  # to visualize the input/outputs
@@ -144,7 +144,7 @@ as the one about
 
 2. Go to your shell and type `python` so it boots into the Python shell ( you should see something like similar to below ):
 
-    ```
+    ```python
     Python 2.7.3 (default, Aug  1 2012, 05:14:39) 
     [GCC 4.6.3] on linux2
     Type "help", "copyright", "credits" or "license" for more information.
@@ -158,7 +158,7 @@ help you remember it better
 
 4. You can explore each OGR object using help() command:
 
-    ```
+    ```python
     >>> from osgeo import ogr
     >>> wkt = "POINT (1120351.5712494177 741921.4223245403)"
     >>> point = ogr.CreateGeometryFromWkt(wkt)
@@ -195,15 +195,15 @@ help you remember it better
 
 5. I see there's an AddPoint method on my geometry object. Let's see what we break:
 
-    ```
-    >>> point.ExportToWkt()
-    'POINT (-24323 2342 0)'
+    ```python
     >>> point.AddPoint( -9999, 99999 )
     >>> point.ExportToWkt()
     'POINT (-9999 99999 0)'
+    #
+    # Looks like that overrides our initial geometry. That's not good!
+    #
     ```
 
-Looks like that overrides our initial geometry. That's not good!
  
 ### Python Scripts ( One Offs )
 We can also take the examples from the cookbook and run them
