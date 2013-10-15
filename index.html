@@ -44,7 +44,7 @@ But first, let's install a bunch of junk on your computer if it's not already th
 
 <ol>
 <li>
-<strong>Shell</strong>  # Windows people can use CMD, PowerShell or GitBash ( see below ). Mac users have Terminal</li>
+<strong>Shell</strong>  # Windows users have CMD, PowerShell or GitBash ( see below ). Terminal for Mac</li>
 <li><strong>Python</strong></li>
 <li><strong>GDAL/OGR Library and Python Bindings</strong></li>
 <li>
@@ -58,7 +58,7 @@ But first, let's install a bunch of junk on your computer if it's not already th
 operating system you are running among other factors. So here's a list of places 
 to get started depending on your operating system:</p>
 
-<h4>
+<hr><h4>
 <a name="windows" class="anchor" href="#windows"><span class="octicon octicon-link"></span></a>Windows</h4>
 
 <p>There's no particular reason to use 
@@ -71,12 +71,12 @@ then <a href="http://code.google.com/p/msysgit/downloads/list?q=label:Featured">
 is a good place to start.</p>
 
 <p>Luckily Python, GDAL/OGR ( w/ Python bindings ) and QGIS can all be installed 
-in one shot with (OSGeo4W)[<a href="http://trac.osgeo.org/osgeo4w/wiki">http://trac.osgeo.org/osgeo4w/wiki</a>]. </p>
+in one shot with <a href="http://trac.osgeo.org/osgeo4w/wiki">OSGeo4W</a>.</p>
 
 <p>PostGIS can be installed as a plugin after you install the <a href="http://www.postgresql.org/download/windows/">Postgresql database
 with this sweet GUI installer</a>.</p>
 
-<h4>
+<hr><h4>
 <a name="mac" class="anchor" href="#mac"><span class="octicon octicon-link"></span></a>Mac</h4>
 
 <p>Specific GDAL install instructions can be found 
@@ -85,7 +85,7 @@ That tutorial references
 <a href="http://www.kyngchaos.com/software:frameworks">this repository</a> 
 where you can find QGIS and PostGIS among a number of other GIS installs for Mac.</p>
 
-<h4>
+<hr><h4>
 <a name="linux--debian-and-ubuntu-" class="anchor" href="#linux--debian-and-ubuntu-"><span class="octicon octicon-link"></span></a>Linux ( Debian and Ubuntu )</h4>
 
 <p>If you are into using packages then you probably want to use 
@@ -165,16 +165,88 @@ sudo make install
 sudo ldconfig
 </pre></div>
 
-<hr><hr><h2>
+<hr><h2>
 <a name="cookbook-handling-techniques" class="anchor" href="#cookbook-handling-techniques"><span class="octicon octicon-link"></span></a>Cookbook Handling Techniques</h2>
 
-<p>Now that everything is installed, let's see how easy it is to use the cookbook examples:</p>
+<p>Now that everything is installed, let's see how easy it is to use the 
+cookbook examples.</p>
 
 <h3>
 <a name="python-shell--exploratory-hack-" class="anchor" href="#python-shell--exploratory-hack-"><span class="octicon octicon-link"></span></a>Python Shell ( Exploratory Hack )</h3>
 
-<h3>
+<p>If you are not familiar with Python, then running the Python shell might be new. 
+The Python shell is an interactive way to explore the code you write while 
+writing it. We can learn
+a lot about the OGR bindings by writing our examples line-by-line in the shell:</p>
+
+<ol>
+<li><p>Navigate to the <a href="http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html">start of the cookbook</a>
+and choose a simple example such
+as the one about 
+<a href="http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-geometry-from-wkt">creating a geometry object from WKT</a>.</p></li>
+<li>
+<p>Go to your shell and type <code>python</code> so it boots into the Python shell ( you should see something like similar to below ):</p>
+
+<div class="highlight highlight-python"><pre><span class="n">Python</span> <span class="mf">2.7</span><span class="o">.</span><span class="mi">3</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Aug</span>  <span class="mi">1</span> <span class="mi">2012</span><span class="p">,</span> <span class="mo">05</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">39</span><span class="p">)</span> 
+<span class="p">[</span><span class="n">GCC</span> <span class="mf">4.6</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span> <span class="n">on</span> <span class="n">linux2</span>
+<span class="n">Type</span> <span class="s">"help"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">,</span> <span class="s">"credits"</span> <span class="ow">or</span> <span class="s">"license"</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+</li>
+<li><p>Start copying the example line-by-line and hit return at the end of each line.
+You can also copy and paste the whole example, but writing it out might
+help you remember it better</p></li>
+<li>
+<p>You can explore each OGR object using help() command:</p>
+
+<div class="highlight highlight-python"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">wkt</span> <span class="o">=</span> <span class="s">"POINT (1120351.5712494177 741921.4223245403)"</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">point</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">wkt</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span> <span class="n">point</span>  <span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">osgeo</span><span class="o">.</span><span class="n">ogr</span><span class="o">.</span><span class="n">Geometry</span><span class="s">'&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">help</span><span class="p">(</span> <span class="n">point</span> <span class="p">)</span>
+
+<span class="n">Help</span> <span class="n">on</span> <span class="n">Geometry</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">osgeo</span><span class="o">.</span><span class="n">ogr</span> <span class="nb">object</span><span class="p">:</span>
+
+<span class="k">class</span> <span class="nc">Geometry</span><span class="p">(</span><span class="n">__builtin__</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+ <span class="o">|</span>  <span class="n">Proxy</span> <span class="n">of</span> <span class="n">C</span><span class="o">++</span> <span class="n">OGRGeometryShadow</span> <span class="k">class</span>
+ <span class="err">|  </span>
+ <span class="o">|</span>  <span class="n">Methods</span> <span class="n">defined</span> <span class="n">here</span><span class="p">:</span>
+ <span class="o">|</span>  
+ <span class="o">|</span>  <span class="n">AddGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+ <span class="o">|</span>      <span class="n">AddGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Geometry</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OGRErr</span>
+ <span class="o">|</span>  
+ <span class="o">|</span>  <span class="n">AddGeometryDirectly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+ <span class="o">|</span>      <span class="n">AddGeometryDirectly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Geometry</span> <span class="n">other_disown</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OGRErr</span>
+ <span class="o">|</span>  
+ <span class="o">|</span>  <span class="n">AddPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+ <span class="o">|</span>      <span class="n">AddPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">double</span> <span class="n">y</span><span class="p">,</span> <span class="n">double</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+ <span class="o">|</span>  
+ <span class="o">|</span>  <span class="n">AddPoint_2D</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+ <span class="o">|</span>      <span class="n">AddPoint_2D</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">double</span> <span class="n">y</span><span class="p">)</span>
+ <span class="o">|</span>  
+ <span class="o">|</span>  <span class="n">AssignSpatialReference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+ <span class="o">|</span>      <span class="n">AssignSpatialReference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SpatialReference</span> <span class="n">reference</span><span class="p">)</span>
+ <span class="o">|</span>    
+
+ <span class="o">...</span><span class="n">output</span> <span class="n">truncated</span><span class="o">...</span>
+</pre></div>
+</li>
+<li>
+<p>I see there's an AddPoint method on my geometry object. Let's see what we break:</p>
+
+<div class="highlight highlight-python"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">point</span><span class="o">.</span><span class="n">AddPoint</span><span class="p">(</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span> <span class="mi">99999</span> <span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">point</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>
+<span class="s">'POINT (-9999 99999 0)'</span>
+<span class="c">#</span>
+<span class="c"># Looks like that overrides our initial geometry. That's not good!</span>
+<span class="c">#</span>
+</pre></div>
+</li>
+</ol><h3>
 <a name="python-scripts--one-offs-" class="anchor" href="#python-scripts--one-offs-"><span class="octicon octicon-link"></span></a>Python Scripts ( One Offs )</h3>
+
+<p>We can also take the examples from the cookbook and run them</p>
 
 <h3>
 <a name="python-scripts--add-args-" class="anchor" href="#python-scripts--add-args-"><span class="octicon octicon-link"></span></a>Python Scripts ( Add Args )</h3>
@@ -194,7 +266,13 @@ sudo ldconfig
 <a name="layers" class="anchor" href="#layers"><span class="octicon octicon-link"></span></a>Layers</h3>
 
 <h3>
+<a name="features-geometry-fields" class="anchor" href="#features-geometry-fields"><span class="octicon octicon-link"></span></a>Features, Geometry Fields</h3>
+
+<h3>
 <a name="projections" class="anchor" href="#projections"><span class="octicon octicon-link"></span></a>Projections</h3>
+
+<h4>
+<a name="show-me-something-cool" class="anchor" href="#show-me-something-cool"><span class="octicon octicon-link"></span></a>Show Me Something Cool</h4>
 
 <h3>
 <a name="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas"><span class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h3>
