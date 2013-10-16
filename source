@@ -268,37 +268,223 @@ and modified.
 
 -----
 
-
 ## OGR, DataSources, Layers -- Oh My! 
 The official [Python GDAL/OGR](http://gdal.org/python/) binding documentation goes
-into all the necessary technical detail about the functions and properties for each API class. It's a good place
-to start. Let's look at some of the cookbook code samples for these API topics:
+into all the necessary technical detail about the functions and properties for each API 
+module and class. It's a good place
+to roadmap which parts of the API can help you in your workflow. 
+
+Let's look at some of the cookbook code samples regarding some API concepts:
 
 ### OGR Namespaced Functions
+Since processing geometries is a big part of using these bindings, 
+the module `osgeo.ogr` contains a bunch of helper functions for creating
+or parsing geometries. We can see
+what is offered by looking at the module [docs](http://gdal.org/python/).
+
+Examples:
+
+1. Create Polygon manually using `osgeo.ogr.Geometry`: [cookbook example](http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-a-polygon)
+2. Build up a multi-part geometry using `osgeo.ogr.Geometry`: [cookbook example](http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-a-multipoint)
+3. Parse WKT into a geometry object using `osgeo.ogr.CreateGeometryFromWkt`: [cookbook example](http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-geometry-from-wkt)
+4. Parse GeoJSON into a geometry object using `osgeo.ogr.CraeteGeometryFromJson`: [cookbook example](http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-geometry-from-geojson)
 
 ### DataSources
+To be able to read/write layers and their features we need to 
+have a basic understanding of how to work with `osgeo.ogr.Driver` and `osgeo.ogr.DataSources`.
+A quick-and-dirty theoretical explanation about Drivers and DataSources might be
+ -- the GDAL/OGR library has to make sure it has the correct tool ( Driver )
+ to talk with a certain data format ( DataSource ).
 
-### Layers 
+1. Example of checking if my GDAL/OGR supports reading/writing from/to Shapefiles and PostgreSQL. 
+Full cookbook [example here](http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#is-ogr-driver-available-by-driver-name):
 
-### Features, Geometry Fields
+```python
+from osgeo import ogr
+
+## Shapefile available?
+driverName = "ESRI Shapefile"
+drv = ogr.GetDriverByName( driverName )
+if drv is None:
+    print "%s driver not available.\n" % driverName
+else:
+    print  "%s driver IS available.\n" % driverName
+
+## PostgreSQL available?
+driverName = "PostgreSQL"
+drv = ogr.GetDriverByName( driverName )
+if drv is None:
+    print "%s driver not available.\n" % driverName
+else:
+    print  "%s driver IS available.\n" % driverName
+```
+
+2. Example of opening a Shapefile datasource for read/write. Full cookbook [example here](http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-shapefile-feature-count):
+
+```python
+import os
+from osgeo import ogr
+daShapefile = r"C:\Temp\Voting_Centers_and_Ballot_Sites.shp"
+driver = ogr.GetDriverByName('ESRI Shapefile')
+dataSource = driver.Open(daShapefile, 0) # 0 means read-only. 1 means writeable.
+
+#
+#  NOTE: this is a manual way to open a shapefile. osgeo.ogr.Open() can also
+#  sniff the file URI to figure out type of driver to use. The above can be 
+#  rewritten
+#
+from osgeo import ogr
+daShapefile = r"C:\Temp\Voting_Centers_and_Ballot_Sites.shp"
+dataSource = ogr.Open(daShapefile, 0) # 0 means read-only. 1 means writeable.
+```
+
+3. Example of opening a PostGIS datasource to run SQL. Full cookbook [example here](http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-all-postgis-layers-in-a-postgresql-database):
+
+```python
+from osgeo import ogr
+databaseServer = "<IP of database server OR Name of database server"
+databaseName = "<Name of database>"
+databaseUser = "<User name>"
+databasePW = "<User password>"
+connString = "PG: host=%s dbname=%s user=%s password=%s" %(databaseServer,databaseName,databaseUser,databasePW)
+conn = ogr.Open(connString)
+```
+
+### Layers, Features, Geometry Fields
 
 ### Projections
 
 
 -----
 
-##  Show Me Something Cool
+##  Show Me Something Sorta Cool
+Below are a few modified cookbook examples that do something slightly different:
+
+1. Example showing how we can find the most interesting King County parcels. **Interesting** is
+defined here to be "multi-part parcels with a part count > 13". If you are using Linux-type
+shell it goes further to show how we can visualize some of these features with the
+famous [Mapfarts.com](http://mapfarts.com] instead of doing it in QGIS. Derived from [this
+cookbook example](http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-feature-count-by-layer-name):
+
+```python
+from osgeo import ogr
+import sys
+
+databaseServer = "127.0.0.1"
+databaseName = "ogrdemo"
+databaseUser = "postgres"
+databasePW = "postgres"
+connString = "PG: host=%s dbname=%s user=%s password=%s" %(databaseServer,databaseName,databaseUser,databasePW)
+
+def GetPGLayerFields( lyr_name ):
+    conn = ogr.Open(connString)
+
+    lyr = conn.GetLayer( lyr_name )
+    if lyr is None:
+        print >> sys.stderr, '[ ERROR ]: layer name = "%s" could not be found in database "%s"' % ( lyr_name, databaseName )
+        sys.exit( 1 )
+
+    counter = 0
+    interesting_ones = []
+    for feat in lyr:
+        geom = feat.GetGeometryRef()
+        if geom.GetGeometryCount() > 13:
+			#
+			#  interesting to note here that if we didn't Clone()
+			#  the geometry here, then trying to reference
+			#  it later will blow up -- guessing because we
+			#  lost reference to the feature it was part of
+			#  in this loop -- GOTCHA!
+			#
+            interesting_ones.append( geom.Clone() )
+
+    for i in interesting_ones:
+        print i.ExportToWkt()
+
+    conn.Destroy()
+
+
+if __name__ == '__main__':
+
+    if len( sys.argv ) < 2:
+        print >> sys.stderr, '[ ERROR ]: you must pass at least one argument -- the layer name argument'
+        sys.exit( 1 )
+
+    lyr_name = sys.argv[1]
+    GetPGLayerFields( lyr_name )
+```
+
+Now run it and dump the output WKT geometry to a text file:
+
+```bash
+$ python interestingfarts.py parcel > OUTPUT.txt
+```
+
+Now read in the WKT geometry line by line and throw it at [Mapfart.com](http://mapfart.com) to break the service. ( NOTE:
+you must setup a mapfart alias in a Linux-like shell for this to work. See setup section [here](http://mapfart.com/) ):
+
+```bash
+$ while read -r x; do echo $x | mapfart; done < OUTPUT.txt
+http://mapfart.com/fart_wm8Sc9
+http://mapfart.com/fart_A6AvAN
+http://mapfart.com/fart_oNlFbR
+http://mapfart.com/fart_DFO5UI
+http://mapfart.com/fart_fZOqHa
+http://mapfart.com/fart_0Lr7hB
+http://mapfart.com/fart_UNwJei
+http://mapfart.com/fart_0ndNXu
+http://mapfart.com/fart_8WaaGS
+http://mapfart.com/fart_eh_qRc
+http://mapfart.com/fart_Eced2o
+```
+
+Each of these is a picture of our interesting parcel fart!
+
+2. Example showing how to approximate this `ogr2ogr` command line statement that does a filter and a column select on 
+King County parcels shapefile. Derived from
+this cookbook example:
+
+The `ogr2ogr1 statement we are going to duplicate:
+
+```bash
+# this command says read in "parcel.shp" and write out to "junkmob.shp" 
+# where "minor" column = 'HYDR' value and only output "pin" column
+$ ogr2ogr -f "ESRI Shapefile" junkmob.shp -select pin -where "minor = 'HYDR'" parcel.shp
+```
 
 
 -----
 
 ## Tricks, Trapdoors, Gotchas
-http://trac.osgeo.org/gdal/wiki/PythonGotchas
+The official GDAL/OGR wiki has a long-and-must-read list of [great gotchas here](http://trac.osgeo.org/gdal/wiki/PythonGotchas). I've been bitten
+by the example below:
+
+Example showing that i cannot delete the parent feature of a child geometry
+I hold a reference to because it will blow shit up. Lesson --
+don't delete the feature unless you know you are done with it.
+```python
+from osgeo import ogr
+shp_path = "C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"
+dSource = ogr.Open( shp_path )
+if dSource is None:
+    print "[ ERROR ]: datasource cannot be opened"
+
+layer = dSource.GetLayer()
+feat = layer.GetNextFeature()
+geom = feat.GetGeometryRef()
+del feat # we deleted the parent ref of geom variable
+print "[ DELETED ] feature"
+print geom.ExportToWkt()  # this call will confuse the hell out of OGR
+print "[ DONE ]"  # this will never be reached
+```
+
+Example where we lose feature ref because we are looping through all features
+and only care about geometries:
+
 
 -----
 
 ## Giving Back: Contributing to the Cookbook
-
 
 ### Clone
 
@@ -309,4 +495,4 @@ http://trac.osgeo.org/gdal/wiki/PythonGotchas
 -----
 
 ### Authors and Contributors
-Thanks to the developers at Pierce County GIS @jericks, Cort Daniels, Michael Payne. Also thanks to Greg Corradini.
+Thanks to the developers at Pierce County GIS @jericks, Cort Daniels, Michael Payne. Additional thanks to Greg Corradini.
