@@ -459,27 +459,43 @@ this cookbook example:
 The official GDAL/OGR wiki has a long-and-must-read list of [great gotchas here](http://trac.osgeo.org/gdal/wiki/PythonGotchas). I've been bitten
 by the example below:
 
-Example showing that i cannot delete the parent feature of a child geometry
+1. Example showing that i cannot delete the parent feature of a child geometry
 I hold a reference to because it will blow shit up. Lesson --
-don't delete the feature unless you know you are done with it.
-```python
-from osgeo import ogr
-shp_path = "C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"
-dSource = ogr.Open( shp_path )
-if dSource is None:
-    print "[ ERROR ]: datasource cannot be opened"
+don't delete the feature unless you know you are done with it:
 
-layer = dSource.GetLayer()
-feat = layer.GetNextFeature()
-geom = feat.GetGeometryRef()
-del feat # we deleted the parent ref of geom variable
-print "[ DELETED ] feature"
-print geom.ExportToWkt()  # this call will confuse the hell out of OGR
-print "[ DONE ]"  # this will never be reached
-```
+	```python
+	from osgeo import ogr
+	shp_path = "C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"
+	dSource = ogr.Open( shp_path )
+	if dSource is None:
+		print "[ ERROR ]: datasource cannot be opened"
 
-Example where we lose feature ref because we are looping through all features
+	layer = dSource.GetLayer()
+	feat = layer.GetNextFeature()
+	geom = feat.GetGeometryRef()
+	del feat # we deleted the parent ref of geom variable
+	print "[ DELETED ] feature"
+	print geom.ExportToWkt()  # this call will confuse the hell out of OGR
+	print "[ DONE ]"  # this will never be reached
+	```
+
+2. Example where we lose feature ref because we are looping through all features
 and only care about geometries:
+
+	```python
+	from osgeo import ogr
+	shp_path = "C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"
+	dSource = ogr.Open( shp_path )
+	if dSource is None:
+		print "[ ERROR ]: datasource cannot be opened"
+
+	layer = dSource.GetLayer()
+	geom_collection = []
+	for feat in layer:
+			geom = feat.GetGeometryRef()
+			geom_collection.append( geom )
+	for g in geom_collection: print g.ExportToWkt()
+	```
 
 
 -----
