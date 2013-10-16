@@ -317,7 +317,7 @@ into all the necessary technical detail about the functions and properties for e
 module and class. It's a good place
 to roadmap which parts of the API can help you in your workflow. </p>
 
-<p>Let's look at some of the cookbook code samples regarding some API concepts:</p>
+<p>Let's look at some of the cookbook code samples regarding some API concepts.</p>
 
 <h3>
 <a name="ogr-namespaced-functions" class="anchor" href="#ogr-namespaced-functions"><span class="octicon octicon-link"></span></a>OGR Namespaced Functions</h3>
@@ -348,9 +348,11 @@ A quick-and-dirty theoretical explanation about Drivers and DataSources might be
  to talk with a certain data format ( DataSource ).</p>
 
 <ol>
-<li>Example of checking if my GDAL/OGR supports reading/writing from/to Shapefiles and PostgreSQL. 
-Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#is-ogr-driver-available-by-driver-name">example here</a>:</li>
-</ol><div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<li>
+<p>Example of checking if my GDAL/OGR supports reading/writing from/to Shapefiles and PostgreSQL. 
+Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#is-ogr-driver-available-by-driver-name">example here</a>:</p>
+
+<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
 
 <span class="c">## Shapefile available?</span>
 <span class="n">driverName</span> <span class="o">=</span> <span class="s">"ESRI Shapefile"</span>
@@ -368,10 +370,11 @@ Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.htm
 <span class="k">else</span><span class="p">:</span>
     <span class="k">print</span>  <span class="s">"</span><span class="si">%s</span><span class="s"> driver IS available.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">driverName</span>
 </pre></div>
+</li>
+<li>
+<p>Example of opening a Shapefile datasource for read/write. Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-shapefile-feature-count">example here</a>:</p>
 
-<ol>
-<li>Example of opening a Shapefile datasource for read/write. Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-shapefile-feature-count">example here</a>:</li>
-</ol><div class="highlight highlight-python"><pre><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight highlight-python"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
 <span class="n">daShapefile</span> <span class="o">=</span> <span class="s">r"C:\Temp\Voting_Centers_and_Ballot_Sites.shp"</span>
 <span class="n">driver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">'ESRI Shapefile'</span><span class="p">)</span>
@@ -386,10 +389,11 @@ Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.htm
 <span class="n">daShapefile</span> <span class="o">=</span> <span class="s">r"C:\Temp\Voting_Centers_and_Ballot_Sites.shp"</span>
 <span class="n">dataSource</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">daShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c"># 0 means read-only. 1 means writeable.</span>
 </pre></div>
+</li>
+<li>
+<p>Example of opening a PostGIS datasource to run SQL. Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-all-postgis-layers-in-a-postgresql-database">example here</a>:</p>
 
-<ol>
-<li>Example of opening a PostGIS datasource to run SQL. Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-all-postgis-layers-in-a-postgresql-database">example here</a>:</li>
-</ol><div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
 <span class="n">databaseServer</span> <span class="o">=</span> <span class="s">"&lt;IP of database server OR Name of database server"</span>
 <span class="n">databaseName</span> <span class="o">=</span> <span class="s">"&lt;Name of database&gt;"</span>
 <span class="n">databaseUser</span> <span class="o">=</span> <span class="s">"&lt;User name&gt;"</span>
@@ -397,8 +401,8 @@ Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.htm
 <span class="n">connString</span> <span class="o">=</span> <span class="s">"PG: host=</span><span class="si">%s</span><span class="s"> dbname=</span><span class="si">%s</span><span class="s"> user=</span><span class="si">%s</span><span class="s"> password=</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span><span class="p">(</span><span class="n">databaseServer</span><span class="p">,</span><span class="n">databaseName</span><span class="p">,</span><span class="n">databaseUser</span><span class="p">,</span><span class="n">databasePW</span><span class="p">)</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">connString</span><span class="p">)</span>
 </pre></div>
-
-<h3>
+</li>
+</ol><h3>
 <a name="layers-features-geometry-fields" class="anchor" href="#layers-features-geometry-fields"><span class="octicon octicon-link"></span></a>Layers, Features, Geometry Fields</h3>
 
 <h3>
@@ -410,11 +414,13 @@ Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.htm
 <p>Below are a few modified cookbook examples that do something slightly different:</p>
 
 <ol>
-<li>Example showing how we can find the most interesting King County parcels. <strong>Interesting</strong> is
+<li>
+<p>Example showing how we can find the most interesting King County parcels. <strong>Interesting</strong> is
 defined here to be "multi-part parcels with a part count &gt; 13". If you are using Linux-type
 shell it goes further to show how we can visualize some of these features with the
-famous <a href="http://mapfarts.com%5D%20instead%20of%20doing%20it%20in%20QGIS.%20Derived%20from%20%5Bthis%0Acookbook%20example%5D(http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-feature-count-by-layer-name">Mapfarts.com</a>:</li>
-</ol><div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+famous <a href="http://mapfarts.com%5D%20instead%20of%20doing%20it%20in%20QGIS.%20Derived%20from%20%5Bthis%0Acookbook%20example%5D(http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-feature-count-by-layer-name">Mapfarts.com</a>:</p>
+
+<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="n">databaseServer</span> <span class="o">=</span> <span class="s">"127.0.0.1"</span>
@@ -450,7 +456,6 @@ famous <a href="http://mapfarts.com%5D%20instead%20of%20doing%20it%20in%20QGIS.%
 
     <span class="n">conn</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
 
-
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -484,19 +489,20 @@ http://mapfart.com/fart_Eced2o
 </pre></div>
 
 <p>Each of these is a picture of our interesting parcel fart!</p>
-
-<ol>
-<li>Example showing how to approximate this <code>ogr2ogr</code> command line statement that does a filter and a column select on 
+</li>
+<li>
+<p>Example showing how to approximate this <code>ogr2ogr</code> command line statement that does a filter and a column select on 
 King County parcels shapefile. Derived from
-this cookbook example:</li>
-</ol><p>The `ogr2ogr1 statement we are going to duplicate:</p>
+this cookbook example:</p>
+
+<p>The `ogr2ogr1 statement we are going to duplicate:</p>
 
 <div class="highlight highlight-bash"><pre><span class="c"># this command says read in "parcel.shp" and write out to "junkmob.shp" </span>
 <span class="c"># where "minor" column = 'HYDR' value and only output "pin" column</span>
 <span class="nv">$ </span>ogr2ogr -f <span class="s2">"ESRI Shapefile"</span> junkmob.shp -select pin -where <span class="s2">"minor = 'HYDR'"</span> parcel.shp
 </pre></div>
-
-<hr><h2>
+</li>
+</ol><hr><h2>
 <a name="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas"><span class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h2>
 
 <p>The official GDAL/OGR wiki has a long-and-must-read list of <a href="http://trac.osgeo.org/gdal/wiki/PythonGotchas">great gotchas here</a>. I've been bitten
