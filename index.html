@@ -31,7 +31,7 @@
       </header>
       <section>
         <h1>
-<a name="welcome-to-the-smackdown" class="anchor" href="#welcome-to-the-smackdown"><span class="octicon octicon-link"></span></a>Welcome to the Smackdown!</h1>
+<a name="welcome" class="anchor" href="#welcome"><span class="octicon octicon-link"></span></a>Welcome!</h1>
 
 <p>Let's learn how we can use 
 <a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Pierce County's awesome Python GDAL/OGR Cookbook</a>. 
@@ -405,11 +405,21 @@ Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.htm
 </ol><h3>
 <a name="layers-features-geometry-fields" class="anchor" href="#layers-features-geometry-fields"><span class="octicon octicon-link"></span></a>Layers, Features, Geometry Fields</h3>
 
-<h3>
+<ol>
+<li>Example of working with layers, features and fields in shapefile. <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#create-a-new-layer-from-the-extent-of-an-existing-layer"> cookbook example </a>
+</li>
+<li>Example of getting layers, features and fields in postgresql. <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-fields-get-the-user-defined-fields"> cookbooke example </a>
+</li>
+</ol><h3>
 <a name="projections" class="anchor" href="#projections"><span class="octicon octicon-link"></span></a>Projections</h3>
 
-<hr><h2>
-<a name="show-me-something-sorta-cool" class="anchor" href="#show-me-something-sorta-cool"><span class="octicon octicon-link"></span></a>Show Me Something Sorta Cool</h2>
+<ol>
+<li>Example of applying a projection to a geometry. <a href="http://pcjericks.github.io/py-gdalogr-cookbook/projection.html#project-a-geometry"> cookbook example </a>
+</li>
+<li>Example of writing a <code>.prj</code> file for an ESRI shapefile. <a href="http://pcjericks.github.io/py-gdalogr-cookbook/projection.html#create-an-esri-prj-file"> cookbook example </a>
+</li>
+</ol><hr><h2>
+<a name="show-me-something-kinda-cool" class="anchor" href="#show-me-something-kinda-cool"><span class="octicon octicon-link"></span></a>Show Me Something Kinda Cool</h2>
 
 <p>Below are a few modified cookbook examples that do something slightly different:</p>
 
@@ -501,6 +511,76 @@ this cookbook example:</p>
 <span class="c"># where "minor" column = 'HYDR' value and only output "pin" column</span>
 <span class="nv">$ </span>ogr2ogr -f <span class="s2">"ESRI Shapefile"</span> junkmob.shp -select pin -where <span class="s2">"minor = 'HYDR'"</span> parcel.shp
 </pre></div>
+
+<p>This doesn't work yet -- fix it and make it work:</p>
+
+<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">run_this_crap</span><span class="p">(</span> <span class="n">field_name_target</span> <span class="p">):</span>
+    <span class="c"># Get the input Layer</span>
+    <span class="n">inShapefile</span> <span class="o">=</span> <span class="s">"C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"</span>
+    <span class="n">inDriver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">"ESRI Shapefile"</span><span class="p">)</span>
+    <span class="n">inDataSource</span> <span class="o">=</span> <span class="n">inDriver</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">inShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">inLayer</span> <span class="o">=</span> <span class="n">inDataSource</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+    <span class="n">inLayer</span><span class="o">.</span><span class="n">SetAttributeFilter</span><span class="p">(</span><span class="s">"minor = 'HYDR'"</span><span class="p">)</span>
+
+    <span class="c"># Create the output Layer</span>
+    <span class="n">outShapefile</span> <span class="o">=</span> <span class="s">"C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\output_ogrhydra_filter.shp"</span>
+    <span class="n">outDriver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">"ESRI Shapefile"</span><span class="p">)</span>
+
+    <span class="c"># Remove output shapefile if it already exists</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">):</span>
+        <span class="n">outDriver</span><span class="o">.</span><span class="n">DeleteDataSource</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">)</span>
+
+    <span class="c"># Create the output shapefile</span>
+    <span class="n">outDataSource</span> <span class="o">=</span> <span class="n">outDriver</span><span class="o">.</span><span class="n">CreateDataSource</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">)</span>
+    <span class="n">outLayer</span> <span class="o">=</span> <span class="n">outDataSource</span><span class="o">.</span><span class="n">CreateLayer</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span> <span class="n">outShapefile</span> <span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geom_type</span><span class="o">=</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbMultiPolygon</span><span class="p">)</span>
+
+    <span class="c"># Add input Layer Fields to the output Layer if it is the one we want</span>
+    <span class="n">inLayerDefn</span> <span class="o">=</span> <span class="n">inLayer</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inLayerDefn</span><span class="o">.</span><span class="n">GetFieldCount</span><span class="p">()):</span>
+        <span class="n">fieldDefn</span> <span class="o">=</span> <span class="n">inLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">fieldName</span> <span class="o">=</span> <span class="n">fieldDefn</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fieldName</span> <span class="o">==</span> <span class="n">field_name_target</span><span class="p">:</span>
+            <span class="n">outLayer</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">fieldDefn</span><span class="p">)</span>
+
+    <span class="c"># Get the output Layer's Feature Definition</span>
+    <span class="n">outLayerDefn</span> <span class="o">=</span> <span class="n">outLayer</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">()</span>
+
+    <span class="c"># Add features to the ouput Layer</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inLayer</span><span class="o">.</span><span class="n">GetFeatureCount</span><span class="p">()):</span>
+        <span class="c"># Get the input Feature</span>
+        <span class="n">inFeature</span> <span class="o">=</span> <span class="n">inLayer</span><span class="o">.</span><span class="n">GetFeature</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="c"># Create output Feature</span>
+        <span class="n">outFeature</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">outLayerDefn</span><span class="p">)</span>
+
+        <span class="c"># Add field values from input Layer</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldCount</span><span class="p">()):</span>
+            <span class="n">fieldDefn</span> <span class="o">=</span> <span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">fieldName</span> <span class="o">=</span> <span class="n">fieldDefn</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">fieldName</span> <span class="o">==</span> <span class="n">field_name_target</span><span class="p">:</span>
+                <span class="n">outFeature</span><span class="o">.</span><span class="n">SetField</span><span class="p">(</span><span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">GetNameRef</span><span class="p">(),</span> <span class="n">inFeature</span><span class="o">.</span><span class="n">GetField</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+        <span class="c"># Set geometry as centroid</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">inFeature</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">Centroid</span><span class="p">()</span>
+        <span class="n">outFeature</span><span class="o">.</span><span class="n">SetGeometry</span><span class="p">(</span><span class="n">centroid</span><span class="p">)</span>
+        <span class="c"># Add new feature to output Layer</span>
+        <span class="n">outLayer</span><span class="o">.</span><span class="n">CreateFeature</span><span class="p">(</span><span class="n">outFeature</span><span class="p">)</span>
+
+    <span class="c"># Close DataSources</span>
+    <span class="n">inDataSource</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+    <span class="n">outDataSource</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">"[ ERROR ]: you need to pass at least 1 arg -- the field_name to target"</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">run_this_crap</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
+</pre></div>
 </li>
 </ol><hr><h2>
 <a name="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas"><span class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h2>
@@ -508,9 +588,11 @@ this cookbook example:</p>
 <p>The official GDAL/OGR wiki has a long-and-must-read list of <a href="http://trac.osgeo.org/gdal/wiki/PythonGotchas">great gotchas here</a>. I've been bitten
 by the example below:</p>
 
+<ol>
+<li>
 <p>Example showing that i cannot delete the parent feature of a child geometry
 I hold a reference to because it will blow shit up. Lesson --
-don't delete the feature unless you know you are done with it.</p>
+don't delete the feature unless you know you are done with it:</p>
 
 <div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
 <span class="n">shp_path</span> <span class="o">=</span> <span class="s">"C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"</span>
@@ -526,21 +608,27 @@ don't delete the feature unless you know you are done with it.</p>
 <span class="k">print</span> <span class="n">geom</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>  <span class="c"># this call will confuse the hell out of OGR</span>
 <span class="k">print</span> <span class="s">"[ DONE ]"</span>  <span class="c"># this will never be reached</span>
 </pre></div>
-
+</li>
+<li>
 <p>Example where we lose feature ref because we are looping through all features
 and only care about geometries:</p>
 
-<hr><h2>
-<a name="giving-back-contributing-to-the-cookbook" class="anchor" href="#giving-back-contributing-to-the-cookbook"><span class="octicon octicon-link"></span></a>Giving Back: Contributing to the Cookbook</h2>
+<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<span class="n">shp_path</span> <span class="o">=</span> <span class="s">"C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"</span>
+<span class="n">dSource</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span> <span class="n">shp_path</span> <span class="p">)</span>
+<span class="k">if</span> <span class="n">dSource</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"[ ERROR ]: datasource cannot be opened"</span>
 
-<h3>
-<a name="clone" class="anchor" href="#clone"><span class="octicon octicon-link"></span></a>Clone</h3>
-
-<h3>
-<a name="revise" class="anchor" href="#revise"><span class="octicon octicon-link"></span></a>Revise</h3>
-
-<h3>
-<a name="send-pull-request" class="anchor" href="#send-pull-request"><span class="octicon octicon-link"></span></a>Send Pull Request</h3>
+<span class="n">layer</span> <span class="o">=</span> <span class="n">dSource</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+<span class="n">geom_collection</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">layer</span><span class="p">:</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
+        <span class="n">geom_collection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">geom</span> <span class="p">)</span>
+<span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">geom_collection</span><span class="p">:</span> <span class="k">print</span> <span class="n">g</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>
+</pre></div>
+</li>
+</ol><hr><h2>
+<a name="giving-back-contributing-to-the-cookbook-reminder" class="anchor" href="#giving-back-contributing-to-the-cookbook-reminder"><span class="octicon octicon-link"></span></a>Giving Back: Contributing to the Cookbook REMINDER!!!!</h2>
 
 <hr><h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
