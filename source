@@ -352,12 +352,17 @@ Full cookbook [example here](http://pcjericks.github.io/py-gdalogr-cookbook/laye
 
 ### Layers, Features, Geometry Fields
 
+1. Example of working with layers, features and fields in shapefile. [ cookbook example ](http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#create-a-new-layer-from-the-extent-of-an-existing-layer)
+2. Example of getting layers, features and fields in postgresql. [ cookbooke example ](http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-fields-get-the-user-defined-fields)
+
 ### Projections
 
+1. Example of applying a projection to a geometry. [ cookbook example ](http://pcjericks.github.io/py-gdalogr-cookbook/projection.html#project-a-geometry)
+2. Example of writing a `.prj` file for an ESRI shapefile. [ cookbook example ](http://pcjericks.github.io/py-gdalogr-cookbook/projection.html#create-an-esri-prj-file)
 
 -----
 
-##  Show Me Something Sorta Cool
+##  Show Me Something Kinda Cool
 Below are a few modified cookbook examples that do something slightly different:
 
 1. Example showing how we can find the most interesting King County parcels. **Interesting** is
@@ -450,6 +455,77 @@ this cookbook example:
 	# this command says read in "parcel.shp" and write out to "junkmob.shp" 
 	# where "minor" column = 'HYDR' value and only output "pin" column
 	$ ogr2ogr -f "ESRI Shapefile" junkmob.shp -select pin -where "minor = 'HYDR'" parcel.shp
+	```
+	
+	This doesn't work yet -- fix it and make it work:
+	
+	```python
+	from osgeo import ogr
+	import os, sys
+
+	def run_this_crap( field_name_target ):
+		# Get the input Layer
+		inShapefile = "C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"
+		inDriver = ogr.GetDriverByName("ESRI Shapefile")
+		inDataSource = inDriver.Open(inShapefile, 0)
+		inLayer = inDataSource.GetLayer()
+		inLayer.SetAttributeFilter("minor = 'HYDR'")
+
+		# Create the output Layer
+		outShapefile = "C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\output_ogrhydra_filter.shp"
+		outDriver = ogr.GetDriverByName("ESRI Shapefile")
+
+		# Remove output shapefile if it already exists
+		if os.path.exists(outShapefile):
+			outDriver.DeleteDataSource(outShapefile)
+
+		# Create the output shapefile
+		outDataSource = outDriver.CreateDataSource(outShapefile)
+		outLayer = outDataSource.CreateLayer( os.path.splitext( os.path.split( outShapefile )[1] )[0], geom_type=ogr.wkbMultiPolygon)
+
+		# Add input Layer Fields to the output Layer if it is the one we want
+		inLayerDefn = inLayer.GetLayerDefn()
+		for i in range(0, inLayerDefn.GetFieldCount()):
+			fieldDefn = inLayerDefn.GetFieldDefn(i)
+			fieldName = fieldDefn.GetName()
+			if fieldName == field_name_target:
+				outLayer.CreateField(fieldDefn)
+
+		# Get the output Layer's Feature Definition
+		outLayerDefn = outLayer.GetLayerDefn()
+
+		# Add features to the ouput Layer
+		for i in range(0, inLayer.GetFeatureCount()):
+			# Get the input Feature
+			inFeature = inLayer.GetFeature(i)
+			# Create output Feature
+			outFeature = ogr.Feature(outLayerDefn)
+			
+			# Add field values from input Layer
+			for i in range(0, outLayerDefn.GetFieldCount()):
+				fieldDefn = outLayerDefn.GetFieldDefn(i)
+				fieldName = fieldDefn.GetName()
+				if fieldName == field_name_target:
+					outFeature.SetField(outLayerDefn.GetFieldDefn(i).GetNameRef(), inFeature.GetField(i))
+					
+			# Set geometry as centroid
+			geom = inFeature.GetGeometryRef()
+			centroid = geom.Centroid()
+			outFeature.SetGeometry(centroid)
+			# Add new feature to output Layer
+			outLayer.CreateFeature(outFeature)
+
+		# Close DataSources
+		inDataSource.Destroy()
+		outDataSource.Destroy()
+
+	if __name__ == '__main__':
+		
+		if len( sys.argv ) < 2:
+			print "[ ERROR ]: you need to pass at least 1 arg -- the field_name to target"
+			sys.exit(1)
+		
+		run_this_crap( sys.argv[1] )
 	```
 
 
