@@ -1,7 +1,7 @@
 # Welcome to the Smackdown!
 Let's learn how we can use 
 [Pierce County's awesome Python GDAL/OGR Cookbook](http://pcjericks.github.io/py-gdalogr-cookbook/). 
-But first, let's install a bunch of junk on your computer if it's not already there.
+But first, you'll need to install a bunch of junk on your computer if it's not already there.
 
 ## Tooling, Installs, Data
 Some tools we'll use today to explore the cookbook include:
@@ -9,7 +9,7 @@ Some tools we'll use today to explore the cookbook include:
 0. **Shell**  # Windows users have CMD, PowerShell or GitBash ( see below ). Terminal for Mac
 1. **Python**
 2. **GDAL/OGR Library and Python Bindings**
-3. [Mapfart.com](http://mapfart.com) or **QGIS**  # to visualize the input/outputs
+3. **QGIS** or [Mapfart.com](http://mapfart.com) # to visualize the input/outputs
 4. **Shapefiles**  # i got mine from [King County GIS Portal](http://www5.kingcounty.gov/gisdataportal/Default.aspx)
 5. **PostGIS**  # if you care about database support
 
@@ -271,8 +271,8 @@ and modified.
 
 ## OGR, DataSources, Layers -- Oh My! 
 The official [Python GDAL/OGR](http://gdal.org/python/) binding documentation goes
-into all necessary technical detail about the API for each class. It's a good place
-to start. He's a roundup of some 
+into all the necessary technical detail about the functions and properties for each API class. It's a good place
+to start. Let's look at some of the cookbook code samples for these API topics:
 
 ### OGR Namespaced Functions
 
@@ -309,4 +309,4 @@ http://trac.osgeo.org/gdal/wiki/PythonGotchas
 -----
 
 ### Authors and Contributors
-Thanks to the developers at Pierce County GIS @jericks, Cort Daniels, Michael Payne. Thanks to Greg Corradini for putting this together last minute like.
+Thanks to the developers at Pierce County GIS @jericks, Cort Daniels, Michael Payne. Also thanks to Greg Corradini.
