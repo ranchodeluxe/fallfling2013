@@ -35,7 +35,7 @@
 
 <p>Let's learn how we can use 
 <a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Pierce County's awesome Python GDAL/OGR Cookbook</a>. 
-But first, let's install a bunch of junk on your computer if it's not already there.</p>
+But first, you'll need to install a bunch of junk on your computer if it's not already there.</p>
 
 <h2>
 <a name="tooling-installs-data" class="anchor" href="#tooling-installs-data"><span class="octicon octicon-link"></span></a>Tooling, Installs, Data</h2>
@@ -48,7 +48,7 @@ But first, let's install a bunch of junk on your computer if it's not already th
 <li><strong>Python</strong></li>
 <li><strong>GDAL/OGR Library and Python Bindings</strong></li>
 <li>
-<a href="http://mapfart.com">Mapfart.com</a> or <strong>QGIS</strong>  # to visualize the input/outputs</li>
+<strong>QGIS</strong> or <a href="http://mapfart.com">Mapfart.com</a> # to visualize the input/outputs</li>
 <li>
 <strong>Shapefiles</strong>  # i got mine from <a href="http://www5.kingcounty.gov/gisdataportal/Default.aspx">King County GIS Portal</a>
 </li>
@@ -313,31 +313,216 @@ POINT <span class="o">(</span>1198054.340000000083819 648493.089999999967404<spa
 <a name="ogr-datasources-layers----oh-my" class="anchor" href="#ogr-datasources-layers----oh-my"><span class="octicon octicon-link"></span></a>OGR, DataSources, Layers -- Oh My!</h2>
 
 <p>The official <a href="http://gdal.org/python/">Python GDAL/OGR</a> binding documentation goes
-into all necessary technical detail about the API for each class. It's a good place
-to start. He's a roundup of some </p>
+into all the necessary technical detail about the functions and properties for each API 
+module and class. It's a good place
+to roadmap which parts of the API can help you in your workflow. </p>
+
+<p>Let's look at some of the cookbook code samples regarding some API concepts:</p>
 
 <h3>
 <a name="ogr-namespaced-functions" class="anchor" href="#ogr-namespaced-functions"><span class="octicon octicon-link"></span></a>OGR Namespaced Functions</h3>
 
-<h3>
+<p>Since processing geometries is a big part of using these bindings, 
+the module <code>osgeo.ogr</code> contains a bunch of helper functions for creating
+or parsing geometries. We can see
+what is offered by looking at the module <a href="http://gdal.org/python/">docs</a>.</p>
+
+<p>Examples:</p>
+
+<ol>
+<li>Create Polygon manually using <code>osgeo.ogr.Geometry</code>: <a href="http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-a-polygon">cookbook example</a>
+</li>
+<li>Build up a multi-part geometry using <code>osgeo.ogr.Geometry</code>: <a href="http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-a-multipoint">cookbook example</a>
+</li>
+<li>Parse WKT into a geometry object using <code>osgeo.ogr.CreateGeometryFromWkt</code>: <a href="http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-geometry-from-wkt">cookbook example</a>
+</li>
+<li>Parse GeoJSON into a geometry object using <code>osgeo.ogr.CraeteGeometryFromJson</code>: <a href="http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-geometry-from-geojson">cookbook example</a>
+</li>
+</ol><h3>
 <a name="datasources" class="anchor" href="#datasources"><span class="octicon octicon-link"></span></a>DataSources</h3>
 
-<h3>
-<a name="layers" class="anchor" href="#layers"><span class="octicon octicon-link"></span></a>Layers</h3>
+<p>To be able to read/write layers and their features we need to 
+have a basic understanding of how to work with <code>osgeo.ogr.Driver</code> and <code>osgeo.ogr.DataSources</code>.
+A quick-and-dirty theoretical explanation about Drivers and DataSources might be
+ -- the GDAL/OGR library has to make sure it has the correct tool ( Driver )
+ to talk with a certain data format ( DataSource ).</p>
+
+<ol>
+<li>Example of checking if my GDAL/OGR supports reading/writing from/to Shapefiles and PostgreSQL. 
+Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#is-ogr-driver-available-by-driver-name">example here</a>:</li>
+</ol><div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+
+<span class="c">## Shapefile available?</span>
+<span class="n">driverName</span> <span class="o">=</span> <span class="s">"ESRI Shapefile"</span>
+<span class="n">drv</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span> <span class="n">driverName</span> <span class="p">)</span>
+<span class="k">if</span> <span class="n">drv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"</span><span class="si">%s</span><span class="s"> driver not available.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">driverName</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span>  <span class="s">"</span><span class="si">%s</span><span class="s"> driver IS available.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">driverName</span>
+
+<span class="c">## PostgreSQL available?</span>
+<span class="n">driverName</span> <span class="o">=</span> <span class="s">"PostgreSQL"</span>
+<span class="n">drv</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span> <span class="n">driverName</span> <span class="p">)</span>
+<span class="k">if</span> <span class="n">drv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"</span><span class="si">%s</span><span class="s"> driver not available.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">driverName</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span>  <span class="s">"</span><span class="si">%s</span><span class="s"> driver IS available.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">driverName</span>
+</pre></div>
+
+<ol>
+<li>Example of opening a Shapefile datasource for read/write. Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-shapefile-feature-count">example here</a>:</li>
+</ol><div class="highlight highlight-python"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<span class="n">daShapefile</span> <span class="o">=</span> <span class="s">r"C:\Temp\Voting_Centers_and_Ballot_Sites.shp"</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">'ESRI Shapefile'</span><span class="p">)</span>
+<span class="n">dataSource</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">daShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c"># 0 means read-only. 1 means writeable.</span>
+
+<span class="c">#</span>
+<span class="c">#  NOTE: this is a manual way to open a shapefile. osgeo.ogr.Open() can also</span>
+<span class="c">#  sniff the file URI to figure out type of driver to use. The above can be </span>
+<span class="c">#  rewritten</span>
+<span class="c">#</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<span class="n">daShapefile</span> <span class="o">=</span> <span class="s">r"C:\Temp\Voting_Centers_and_Ballot_Sites.shp"</span>
+<span class="n">dataSource</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">daShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c"># 0 means read-only. 1 means writeable.</span>
+</pre></div>
+
+<ol>
+<li>Example of opening a PostGIS datasource to run SQL. Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-all-postgis-layers-in-a-postgresql-database">example here</a>:</li>
+</ol><div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<span class="n">databaseServer</span> <span class="o">=</span> <span class="s">"&lt;IP of database server OR Name of database server"</span>
+<span class="n">databaseName</span> <span class="o">=</span> <span class="s">"&lt;Name of database&gt;"</span>
+<span class="n">databaseUser</span> <span class="o">=</span> <span class="s">"&lt;User name&gt;"</span>
+<span class="n">databasePW</span> <span class="o">=</span> <span class="s">"&lt;User password&gt;"</span>
+<span class="n">connString</span> <span class="o">=</span> <span class="s">"PG: host=</span><span class="si">%s</span><span class="s"> dbname=</span><span class="si">%s</span><span class="s"> user=</span><span class="si">%s</span><span class="s"> password=</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span><span class="p">(</span><span class="n">databaseServer</span><span class="p">,</span><span class="n">databaseName</span><span class="p">,</span><span class="n">databaseUser</span><span class="p">,</span><span class="n">databasePW</span><span class="p">)</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">connString</span><span class="p">)</span>
+</pre></div>
 
 <h3>
-<a name="features-geometry-fields" class="anchor" href="#features-geometry-fields"><span class="octicon octicon-link"></span></a>Features, Geometry Fields</h3>
+<a name="layers-features-geometry-fields" class="anchor" href="#layers-features-geometry-fields"><span class="octicon octicon-link"></span></a>Layers, Features, Geometry Fields</h3>
 
 <h3>
 <a name="projections" class="anchor" href="#projections"><span class="octicon octicon-link"></span></a>Projections</h3>
 
 <hr><h2>
-<a name="show-me-something-cool" class="anchor" href="#show-me-something-cool"><span class="octicon octicon-link"></span></a>Show Me Something Cool</h2>
+<a name="show-me-something-sorta-cool" class="anchor" href="#show-me-something-sorta-cool"><span class="octicon octicon-link"></span></a>Show Me Something Sorta Cool</h2>
+
+<p>Below are a few modified cookbook examples that do something slightly different:</p>
+
+<ol>
+<li>Example showing how we can find the most interesting King County parcels. <strong>Interesting</strong> is
+defined here to be "multi-part parcels with a part count &gt; 13". If you are using Linux-type
+shell it goes further to show how we can visualize some of these features with the
+famous <a href="http://mapfarts.com%5D%20instead%20of%20doing%20it%20in%20QGIS.%20Derived%20from%20%5Bthis%0Acookbook%20example%5D(http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-feature-count-by-layer-name">Mapfarts.com</a>:</li>
+</ol><div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">databaseServer</span> <span class="o">=</span> <span class="s">"127.0.0.1"</span>
+<span class="n">databaseName</span> <span class="o">=</span> <span class="s">"ogrdemo"</span>
+<span class="n">databaseUser</span> <span class="o">=</span> <span class="s">"postgres"</span>
+<span class="n">databasePW</span> <span class="o">=</span> <span class="s">"postgres"</span>
+<span class="n">connString</span> <span class="o">=</span> <span class="s">"PG: host=</span><span class="si">%s</span><span class="s"> dbname=</span><span class="si">%s</span><span class="s"> user=</span><span class="si">%s</span><span class="s"> password=</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span><span class="p">(</span><span class="n">databaseServer</span><span class="p">,</span><span class="n">databaseName</span><span class="p">,</span><span class="n">databaseUser</span><span class="p">,</span><span class="n">databasePW</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">GetPGLayerFields</span><span class="p">(</span> <span class="n">lyr_name</span> <span class="p">):</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">connString</span><span class="p">)</span>
+
+    <span class="n">lyr</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">(</span> <span class="n">lyr_name</span> <span class="p">)</span>
+    <span class="k">if</span> <span class="n">lyr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">print</span> <span class="o">&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">'[ ERROR ]: layer name = "</span><span class="si">%s</span><span class="s">" could not be found in database "</span><span class="si">%s</span><span class="s">"'</span> <span class="o">%</span> <span class="p">(</span> <span class="n">lyr_name</span><span class="p">,</span> <span class="n">databaseName</span> <span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">)</span>
+
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">interesting_ones</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lyr</span><span class="p">:</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">geom</span><span class="o">.</span><span class="n">GetGeometryCount</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">13</span><span class="p">:</span>
+            <span class="c">#</span>
+            <span class="c">#  interesting to note here that if we didn't Clone()</span>
+            <span class="c">#  the geometry here, then trying to reference</span>
+            <span class="c">#  it later will blow up -- guessing because we</span>
+            <span class="c">#  lost reference to the feature it was part of</span>
+            <span class="c">#  in this loop -- GOTCHA!</span>
+            <span class="c">#</span>
+            <span class="n">interesting_ones</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">geom</span><span class="o">.</span><span class="n">Clone</span><span class="p">()</span> <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">interesting_ones</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">i</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>
+
+    <span class="n">conn</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">print</span> <span class="o">&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">'[ ERROR ]: you must pass at least one argument -- the layer name argument'</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">)</span>
+
+    <span class="n">lyr_name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">GetPGLayerFields</span><span class="p">(</span> <span class="n">lyr_name</span> <span class="p">)</span>
+</pre></div>
+
+<p>Now run it and dump the output WKT geometry to a text file:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>python interestingfarts.py parcel &gt; OUTPUT.txt
+</pre></div>
+
+<p>Now read in the WKT geometry line by line and throw it at <a href="http://mapfart.com">Mapfart.com</a> to break the service. ( NOTE:
+you must setup a mapfart alias in a Linux-like shell for this to work. See setup section <a href="http://mapfart.com/">here</a> ):</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span><span class="k">while </span><span class="nb">read</span> -r x; <span class="k">do </span><span class="nb">echo</span> <span class="nv">$x</span> | mapfart; <span class="k">done</span> &lt; OUTPUT.txt
+http://mapfart.com/fart_wm8Sc9
+http://mapfart.com/fart_A6AvAN
+http://mapfart.com/fart_oNlFbR
+http://mapfart.com/fart_DFO5UI
+http://mapfart.com/fart_fZOqHa
+http://mapfart.com/fart_0Lr7hB
+http://mapfart.com/fart_UNwJei
+http://mapfart.com/fart_0ndNXu
+http://mapfart.com/fart_8WaaGS
+http://mapfart.com/fart_eh_qRc
+http://mapfart.com/fart_Eced2o
+</pre></div>
+
+<p>Each of these is a picture of our interesting parcel fart!</p>
+
+<ol>
+<li>Example showing how to approximate this <code>ogr2ogr</code> command line statement that does a filter and a column select on 
+King County parcels shapefile. Derived from
+this cookbook example:</li>
+</ol><p>The `ogr2ogr1 statement we are going to duplicate:</p>
+
+<div class="highlight highlight-bash"><pre><span class="c"># this command says read in "parcel.shp" and write out to "junkmob.shp" </span>
+<span class="c"># where "minor" column = 'HYDR' value and only output "pin" column</span>
+<span class="nv">$ </span>ogr2ogr -f <span class="s2">"ESRI Shapefile"</span> junkmob.shp -select pin -where <span class="s2">"minor = 'HYDR'"</span> parcel.shp
+</pre></div>
 
 <hr><h2>
 <a name="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas"><span class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h2>
 
-<p><a href="http://trac.osgeo.org/gdal/wiki/PythonGotchas">http://trac.osgeo.org/gdal/wiki/PythonGotchas</a></p>
+<p>The official GDAL/OGR wiki has a long-and-must-read list of <a href="http://trac.osgeo.org/gdal/wiki/PythonGotchas">great gotchas here</a>. I've been bitten
+by the example below:</p>
+
+<p>Example showing that i cannot delete the parent feature of a child geometry
+I hold a reference to because it will blow shit up. Lesson --
+don't delete the feature unless you know you are done with it.</p>
+
+<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<span class="n">shp_path</span> <span class="o">=</span> <span class="s">"C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"</span>
+<span class="n">dSource</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span> <span class="n">shp_path</span> <span class="p">)</span>
+<span class="k">if</span> <span class="n">dSource</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"[ ERROR ]: datasource cannot be opened"</span>
+
+<span class="n">layer</span> <span class="o">=</span> <span class="n">dSource</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+<span class="n">feat</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
+<span class="n">geom</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
+<span class="k">del</span> <span class="n">feat</span> <span class="c"># we deleted the parent ref of geom variable</span>
+<span class="k">print</span> <span class="s">"[ DELETED ] feature"</span>
+<span class="k">print</span> <span class="n">geom</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>  <span class="c"># this call will confuse the hell out of OGR</span>
+<span class="k">print</span> <span class="s">"[ DONE ]"</span>  <span class="c"># this will never be reached</span>
+</pre></div>
+
+<p>Example where we lose feature ref because we are looping through all features
+and only care about geometries:</p>
 
 <hr><h2>
 <a name="giving-back-contributing-to-the-cookbook" class="anchor" href="#giving-back-contributing-to-the-cookbook"><span class="octicon octicon-link"></span></a>Giving Back: Contributing to the Cookbook</h2>
@@ -354,7 +539,7 @@ to start. He's a roundup of some </p>
 <hr><h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>Thanks to the developers at Pierce County GIS <a href="https://github.com/jericks" class="user-mention">@jericks</a>, Cort Daniels, Michael Payne. Thanks to Greg Corradini for putting this together last minute like.</p>
+<p>Thanks to the developers at Pierce County GIS <a href="https://github.com/jericks" class="user-mention">@jericks</a>, Cort Daniels, Michael Payne. Additional thanks to Greg Corradini.</p>
       </section>
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
