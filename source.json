@@ -688,11 +688,72 @@ and only care about geometries:
 	for g in geom_collection: print g.ExportToWkt()
 	```
 
+3. Tricky tricky example that took awhile to figure out. My output 
+didn't match my attribute filter. 
+We set an attribute filter on the layer and expect ( maybe? probably? )
+that all layer features are immediately filtered. Not so. The filter is
+only respected when we are iteratoring over the layer and using the under-the-hood
+`OGR_L_GetNextFeature() function`. We can still access all features of the layer
+and this becomes problematic because you might loop through the layer
+using `Layer.GetFeatureCount` as in the example below. Sean Gillies has a pull
+request which talks about using the iterator to avoid bugs. 
+
+
+    ```python
+    from osgeo import ogr
+
+    import os, sys
+
+
+    # Get the input Layer
+
+    inShapefile = "/home/gcorradini/Dropbox/LINUX_BASE_WORKSPACE/DATA/SHAPES/KC_ADMIN/parcel_address/parcel_address.shp"
+
+    inDriver = ogr.GetDriverByName("ESRI Shapefile")
+
+    inDataSource = inDriver.Open(inShapefile, 0)
+
+    inLayer = inDataSource.GetLayer()
+
+    inLayer.SetAttributeFilter("PIN = '0000200001'") # filter only one record
+
+    #
+    #  GOTCHA: we can still access features
+    #  that are not covered by the filter 
+    #  using inLayer.GetFeature(<n+>)
+    #  
+    print "\nFeatures not covered by attribute filter, but still accessible ( YIKES! )..."
+    #  imagine that this next line was `for i in range(0, inLayer.GetFeatureCount() )`
+    for i in range(0, 10):
+        feat = inLayer.GetFeature( i )
+        print feat.GetField(1)
+
+
+    #
+    #  CORRECT: the filter is only
+    #  respected if we use the iterator
+    #  OGR_L_GetNextFeature()
+    #  which, looping through the inLayer
+    #  accomplishes
+    #
+    print "\nFeatures covered by attribute filter..."
+    for feat in inLayer:
+        print feat.GetField(1) # this should only print one feature
+
+    ```
 
 -----
 
-## Giving Back: Contributing to the Cookbook REMINDER!!!!
+## Giving Back: Contributing to the Cookbook
 <a name="give_back"></a>
+
+Since this is a wiki, hopefully you will give a little too. There's a couple ways to contribute
+to the project.
+
+1. *Create an Issue* -- if you don't see an example that you would like to see. Create an [issue on the repo](https://github.com/pcjericks/py-gdalogr-cookbook/issues?page=1&state=open)
+
+2. *Solve Issues -- Pull Request* -- if you like to solve issues too, then fork the repo, clone the code and [create a pull request](https://help.github.com/articles/creating-a-pull-request) for each issue you fix. It's nice to put he issue # in the commit hook like these [examples show](https://github.com/pcjericks/py-gdalogr-cookbook/issues?page=1&state=closed)
+
 -----
 
 ### Authors and Contributors
