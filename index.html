@@ -445,7 +445,7 @@ Below are a few modified cookbook examples that do something slightly different:
 
 <ol>
 <li>
-<p>Example showing how we can find the most interesting <a href="http://www5.kingcounty.gov/sdc/Metadata.aspx?Layer=parcel">King County parcels</a>. <strong>Interesting</strong> is
+<p>Example showing how we can find the most interesting King County parcels. <strong>Interesting</strong> is
 defined here to be "multi-part parcels with a part count &gt; 13". If you are using Linux-type
 shell it goes further to show how we can visualize some of these features with the
 famous <a href="http://mapfarts.com%5D%20instead%20of%20doing%20it%20in%20QGIS.%20Derived%20from%20%5Bthis%0Acookbook%20example%5D(http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-feature-count-by-layer-name">Mapfarts.com</a>:</p>
@@ -522,7 +522,7 @@ http://mapfart.com/fart_Eced2o
 </li>
 <li>
 <p>Example showing how to approximate this <code>ogr2ogr</code> command line statement that does a filter and a column select on 
-<a href="http://www5.kingcounty.gov/sdc/Metadata.aspx?Layer=parcel">King County parcels shapefile</a>. Derived from
+King County parcels shapefile. Derived from
 this cookbook example:</p>
 
 <p>The <code>ogr2ogr</code> statement we are going to duplicate:</p>
@@ -532,7 +532,145 @@ this cookbook example:</p>
 <span class="nv">$ </span>ogr2ogr -f <span class="s2">"ESRI Shapefile"</span> junkmob.shp -select pin -where <span class="s2">"minor = 'HYDR'"</span> parcel.shp
 </pre></div>
 
-<p><a href="codexamples/ogr_api_hydra_filter.py">Here's the code</a> approximating the above <code>ogr2ogr</code> example:</p>
+<p>Here's the code approximating the above <code>ogr2ogr</code> example:</p>
+
+<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span> <span class="n">field_name_target</span> <span class="p">):</span>
+
+    <span class="c"># Get the input Layer</span>
+
+    <span class="n">inShapefile</span> <span class="o">=</span> <span class="s">"/home/gcorradini/Dropbox/LINUX_BASE_WORKSPACE/DATA/SHAPES/KC_ADMIN/parcel_address/parcel_address.shp"</span>
+
+    <span class="n">inDriver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">"ESRI Shapefile"</span><span class="p">)</span>
+
+    <span class="n">inDataSource</span> <span class="o">=</span> <span class="n">inDriver</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">inShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">inLayer</span> <span class="o">=</span> <span class="n">inDataSource</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+
+    <span class="n">inLayer</span><span class="o">.</span><span class="n">SetAttributeFilter</span><span class="p">(</span><span class="s">"minor = 'HYDR'"</span><span class="p">)</span> <span class="c"># approximate the filter</span>
+
+    <span class="c"># Create the output LayerS</span>
+
+    <span class="n">outShapefile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span> <span class="n">inShapefile</span> <span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s">"ogr_api_filter.shp"</span> <span class="p">)</span>
+
+    <span class="n">outDriver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">"ESRI Shapefile"</span><span class="p">)</span>
+
+    <span class="c"># Remove output shapefile if it already exists</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">):</span>
+
+        <span class="n">outDriver</span><span class="o">.</span><span class="n">DeleteDataSource</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">)</span>
+
+    <span class="c"># Create the output shapefile</span>
+
+    <span class="n">outDataSource</span> <span class="o">=</span> <span class="n">outDriver</span><span class="o">.</span><span class="n">CreateDataSource</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">)</span>
+
+    <span class="n">out_lyr_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span> <span class="n">outShapefile</span> <span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">outLayer</span> <span class="o">=</span> <span class="n">outDataSource</span><span class="o">.</span><span class="n">CreateLayer</span><span class="p">(</span> <span class="n">out_lyr_name</span><span class="p">,</span> <span class="n">geom_type</span><span class="o">=</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbMultiPolygon</span> <span class="p">)</span>
+
+    <span class="c"># Add input Layer Fields to the output Layer if it is the one we want</span>
+
+    <span class="n">inLayerDefn</span> <span class="o">=</span> <span class="n">inLayer</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inLayerDefn</span><span class="o">.</span><span class="n">GetFieldCount</span><span class="p">()):</span>
+
+        <span class="n">fieldDefn</span> <span class="o">=</span> <span class="n">inLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="n">fieldName</span> <span class="o">=</span> <span class="n">fieldDefn</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span>
+
+        <span class="c">#</span>
+        <span class="c"># approximate the select by only </span>
+        <span class="c"># targeting our fileds of interest</span>
+        <span class="c">#</span>
+        <span class="k">if</span> <span class="n">fieldName</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">field_name_target</span><span class="p">:</span>
+
+            <span class="k">continue</span>
+
+        <span class="n">outLayer</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">fieldDefn</span><span class="p">)</span>
+
+    <span class="c"># Get the output Layer's Feature Definition</span>
+
+    <span class="n">outLayerDefn</span> <span class="o">=</span> <span class="n">outLayer</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">()</span>
+
+    <span class="c"># Add features to the ouput Layer</span>
+    <span class="sd">'''</span>
+<span class="sd">    NOTE: sgillies mentions in a previous pull request</span>
+<span class="sd">    that you should use the feature iterator whenever you can to avoid bugs:</span>
+
+<span class="sd">        https://github.com/sgillies/py-gdalogr-cookbook/commit/6f658b80e497b1020a0ef89f5dfcdd6860819496</span>
+
+<span class="sd">    This is good advice that should be followed. For example, a tricky unexpected</span>
+<span class="sd">        bug that's worth pointing out happens if we were to use the folloing non-feature iterator code</span>
+<span class="sd">    to loop through our inLayer features. Remember that inLayer has an attribute filter set:</span>
+
+<span class="sd">        for i in range(0, inLayer.GetFeatureCount()):</span>
+
+<span class="sd">    The GDAL/OGR Python docs point out that osgeo.ogr.Layer.SetAttributeFilter() works via</span>
+<span class="sd">    OGR_L_GetNextFeature() function. That means you can still access *any* layer's</span>
+<span class="sd">    feature regardless of whether it matches the filter or not using inLayer.GetFeature(&lt;n+&gt;). </span>
+<span class="sd">    This can lead to mind-boggling outputs. Using the feature iterator means that each feature</span>
+<span class="sd">    returned will respect the attribute filter we set on the layer.</span>
+<span class="sd">    '''</span>
+
+    <span class="k">for</span> <span class="n">inFeature</span> <span class="ow">in</span> <span class="n">inLayer</span><span class="p">:</span>
+
+        <span class="c"># Create output Feature</span>
+
+        <span class="n">outFeature</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">outLayerDefn</span><span class="p">)</span>
+
+        <span class="c"># Add field values from input Layer</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldCount</span><span class="p">()):</span>
+
+            <span class="n">fieldDefn</span> <span class="o">=</span> <span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+            <span class="n">fieldName</span> <span class="o">=</span> <span class="n">fieldDefn</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span>
+
+            <span class="c">#</span>
+            <span class="c"># approximate the select by only </span>
+            <span class="c"># targeting our fileds of interest</span>
+            <span class="c">#</span>
+            <span class="k">if</span> <span class="n">fieldName</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">field_name_target</span><span class="p">:</span>
+
+                <span class="k">continue</span>
+
+            <span class="n">outFeature</span><span class="o">.</span><span class="n">SetField</span><span class="p">(</span><span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">GetNameRef</span><span class="p">(),</span> <span class="n">inFeature</span><span class="o">.</span><span class="n">GetField</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+        <span class="c"># Set geometry as centroid</span>
+
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">inFeature</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
+
+        <span class="n">outFeature</span><span class="o">.</span><span class="n">SetGeometry</span><span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">Clone</span><span class="p">())</span>
+
+        <span class="c"># Add new feature to output Layer</span>
+
+        <span class="n">outLayer</span><span class="o">.</span><span class="n">CreateFeature</span><span class="p">(</span><span class="n">outFeature</span><span class="p">)</span>
+
+    <span class="c"># Close DataSources</span>
+
+    <span class="n">inDataSource</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+
+    <span class="n">outDataSource</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+
+    <span class="sd">'''</span>
+<span class="sd">    EXAMPLE RUN: python ogr_api_hydra_filter.py [ FIELD_NAME  FIELD_NAME1  FIELD_NAME2 ]</span>
+<span class="sd">    $ python ogr_api_hydra_filter.py PIN MINOR</span>
+<span class="sd">    '''</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+
+        <span class="k">print</span> <span class="s">"[ ERROR ]: you need to pass at least one arg -- the field_name to target"</span>
+
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">main</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">)</span>
+
+</pre></div>
 </li>
 </ol><hr><h2>
 <a name="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas"><span class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h2>
