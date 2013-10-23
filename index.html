@@ -528,79 +528,11 @@ this cookbook example:</p>
 <p>The <code>ogr2ogr</code> statement we are going to duplicate:</p>
 
 <div class="highlight highlight-bash"><pre><span class="c"># this command says read in "parcel.shp" and write out to "junkmob.shp" </span>
-<span class="c"># where "minor" column = 'HYDR' value and only output "pin" column</span>
+<span class="c"># where "MINOR" column = 'HYDR' value and only output "PIN" column</span>
 <span class="nv">$ </span>ogr2ogr -f <span class="s2">"ESRI Shapefile"</span> junkmob.shp -select pin -where <span class="s2">"minor = 'HYDR'"</span> parcel.shp
 </pre></div>
 
-<p>This doesn't work yet -- fix it and make it work:</p>
-
-<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
-
-<span class="k">def</span> <span class="nf">run_this_crap</span><span class="p">(</span> <span class="n">field_name_target</span> <span class="p">):</span>
-    <span class="c"># Get the input Layer</span>
-    <span class="n">inShapefile</span> <span class="o">=</span> <span class="s">"C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"</span>
-    <span class="n">inDriver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">"ESRI Shapefile"</span><span class="p">)</span>
-    <span class="n">inDataSource</span> <span class="o">=</span> <span class="n">inDriver</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">inShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">inLayer</span> <span class="o">=</span> <span class="n">inDataSource</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
-    <span class="n">inLayer</span><span class="o">.</span><span class="n">SetAttributeFilter</span><span class="p">(</span><span class="s">"minor = 'HYDR'"</span><span class="p">)</span>
-
-    <span class="c"># Create the output Layer</span>
-    <span class="n">outShapefile</span> <span class="o">=</span> <span class="s">"C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\output_ogrhydra_filter.shp"</span>
-    <span class="n">outDriver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">"ESRI Shapefile"</span><span class="p">)</span>
-
-    <span class="c"># Remove output shapefile if it already exists</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">):</span>
-        <span class="n">outDriver</span><span class="o">.</span><span class="n">DeleteDataSource</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">)</span>
-
-    <span class="c"># Create the output shapefile</span>
-    <span class="n">outDataSource</span> <span class="o">=</span> <span class="n">outDriver</span><span class="o">.</span><span class="n">CreateDataSource</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">)</span>
-    <span class="n">outLayer</span> <span class="o">=</span> <span class="n">outDataSource</span><span class="o">.</span><span class="n">CreateLayer</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span> <span class="n">outShapefile</span> <span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geom_type</span><span class="o">=</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbMultiPolygon</span><span class="p">)</span>
-
-    <span class="c"># Add input Layer Fields to the output Layer if it is the one we want</span>
-    <span class="n">inLayerDefn</span> <span class="o">=</span> <span class="n">inLayer</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inLayerDefn</span><span class="o">.</span><span class="n">GetFieldCount</span><span class="p">()):</span>
-        <span class="n">fieldDefn</span> <span class="o">=</span> <span class="n">inLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="n">fieldName</span> <span class="o">=</span> <span class="n">fieldDefn</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">fieldName</span> <span class="o">==</span> <span class="n">field_name_target</span><span class="p">:</span>
-            <span class="n">outLayer</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">fieldDefn</span><span class="p">)</span>
-
-    <span class="c"># Get the output Layer's Feature Definition</span>
-    <span class="n">outLayerDefn</span> <span class="o">=</span> <span class="n">outLayer</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">()</span>
-
-    <span class="c"># Add features to the ouput Layer</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inLayer</span><span class="o">.</span><span class="n">GetFeatureCount</span><span class="p">()):</span>
-        <span class="c"># Get the input Feature</span>
-        <span class="n">inFeature</span> <span class="o">=</span> <span class="n">inLayer</span><span class="o">.</span><span class="n">GetFeature</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="c"># Create output Feature</span>
-        <span class="n">outFeature</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">outLayerDefn</span><span class="p">)</span>
-
-        <span class="c"># Add field values from input Layer</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldCount</span><span class="p">()):</span>
-            <span class="n">fieldDefn</span> <span class="o">=</span> <span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="n">fieldName</span> <span class="o">=</span> <span class="n">fieldDefn</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">fieldName</span> <span class="o">==</span> <span class="n">field_name_target</span><span class="p">:</span>
-                <span class="n">outFeature</span><span class="o">.</span><span class="n">SetField</span><span class="p">(</span><span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">GetNameRef</span><span class="p">(),</span> <span class="n">inFeature</span><span class="o">.</span><span class="n">GetField</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-
-        <span class="c"># Set geometry as centroid</span>
-        <span class="n">geom</span> <span class="o">=</span> <span class="n">inFeature</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
-        <span class="n">centroid</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">Centroid</span><span class="p">()</span>
-        <span class="n">outFeature</span><span class="o">.</span><span class="n">SetGeometry</span><span class="p">(</span><span class="n">centroid</span><span class="p">)</span>
-        <span class="c"># Add new feature to output Layer</span>
-        <span class="n">outLayer</span><span class="o">.</span><span class="n">CreateFeature</span><span class="p">(</span><span class="n">outFeature</span><span class="p">)</span>
-
-    <span class="c"># Close DataSources</span>
-    <span class="n">inDataSource</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
-    <span class="n">outDataSource</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s">"[ ERROR ]: you need to pass at least 1 arg -- the field_name to target"</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="n">run_this_crap</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
-</pre></div>
+<p>Here's the code approximating the above <code>ogr2ogr</code> example:</p>
 </li>
 </ol><hr><h2>
 <a name="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas"><span class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h2>
