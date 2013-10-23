@@ -445,7 +445,7 @@ Below are a few modified cookbook examples that do something slightly different:
 
 <ol>
 <li>
-<p>Example showing how we can find the most interesting King County parcels. <strong>Interesting</strong> is
+<p>Example showing how we can find the most interesting <a href="http://www5.kingcounty.gov/sdc/Metadata.aspx?Layer=parcel">King County parcels</a>. <strong>Interesting</strong> is
 defined here to be "multi-part parcels with a part count &gt; 13". If you are using Linux-type
 shell it goes further to show how we can visualize some of these features with the
 famous <a href="http://mapfarts.com%5D%20instead%20of%20doing%20it%20in%20QGIS.%20Derived%20from%20%5Bthis%0Acookbook%20example%5D(http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-feature-count-by-layer-name">Mapfarts.com</a>:</p>
@@ -522,7 +522,7 @@ http://mapfart.com/fart_Eced2o
 </li>
 <li>
 <p>Example showing how to approximate this <code>ogr2ogr</code> command line statement that does a filter and a column select on 
-King County parcels shapefile. Derived from
+<a href="http://www5.kingcounty.gov/sdc/Metadata.aspx?Layer=parcel">King County parcels shapefile</a>. Derived from
 this cookbook example:</p>
 
 <p>The <code>ogr2ogr</code> statement we are going to duplicate:</p>
@@ -532,8 +532,7 @@ this cookbook example:</p>
 <span class="nv">$ </span>ogr2ogr -f <span class="s2">"ESRI Shapefile"</span> junkmob.shp -select pin -where <span class="s2">"minor = 'HYDR'"</span> parcel.shp
 </pre></div>
 
-<p>Here's the code approximating the above <code>ogr2ogr</code> example:</p>
-<a href="codexamples/ogr_api_hydra_filter.py">filter and select with OGR API.py</a>
+<p><a href="codexamples/ogr_api_hydra_filter.py">Here's the code</a> approximating the above <code>ogr2ogr</code> example:</p>
 </li>
 </ol><hr><h2>
 <a name="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas"><span class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h2>
