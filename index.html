@@ -17,7 +17,7 @@
     <div class="wrapper">
       <header>
         <h1 class="header">A HowTo About A HowTo: The Python GDAL/OGR Cookbook</h1>
-        <p class="header">CUGOS 2013 Fall Fling Smackdown</p>
+        <p class="header">CUGOS 2013 Fall Fling</p>
 
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/thebigspoon/fallfling2013/zipball/master">Download ZIP</a></li>
@@ -31,26 +31,33 @@
       </header>
       <section>
         <h1>
-<a name="agenda" class="anchor" href="#agenda"><span class="octicon octicon-link"></span></a>Agenda</h1>
+<a name="index" class="anchor" href="#index"><span class="octicon octicon-link"></span></a>Index</h1>
 
 <ol>
-<li>Intro</li>
-<li>Install Caveats</li>
-<li>Something</li>
-<li>Cookbook!</li>
-<li>Other examples</li>
-<li>Tricks and Trapdoors</li>
+<li><a href="#welcome">welcome</a></li>
+<li><a href="#tooling">tooling</a></li>
+<li><a href="#how_to_use">how to cook with the cookbook</a></li>
+<li><a href="#api_concepts">api concepts quicky</a></li>
+<li><a href="#gotcha">tricks, trapdoors, gotchas</a></li>
+<li><a href="#give_back">this is a wiki -- how to give back</a></li>
 </ol><h1>
 <a name="welcome" class="anchor" href="#welcome"><span class="octicon octicon-link"></span></a>Welcome!</h1>
 
-<p>Let's learn how we can use 
-<a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Pierce County's awesome Python GDAL/OGR Cookbook</a>. 
+<p><a name="welcome"></a>
+This tutorial is pretty meta. If you are an experienced Python programmer that wants to start using the GDAL/OGR bindings, then all you need is three links to get started:</p>
+
+<ol>
+<li><a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Cookbook examples</a></li>
+<li><a href="http://gdal.org/python/">Python GDAL/OGR API Docs</a></li>
+<li><a href="http://trac.osgeo.org/gdal/wiki/PythonGotchas">Python GDAL/OGR Gotchas (Required Reading)</a></li>
+</ol><p>If you are new to Python and the GDAL/OGR bindings this think of this as a a quick tour. Now let's get started learning about <a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Pierce County's awesome Python GDAL/OGR Cookbook</a>. 
 But first, you'll need to install a bunch of junk on your computer if it's not already there.</p>
 
 <h2>
 <a name="tooling-installs-data" class="anchor" href="#tooling-installs-data"><span class="octicon octicon-link"></span></a>Tooling, Installs, Data</h2>
 
-<p>Some tools we'll use today to explore the cookbook include:</p>
+<p><a name="tooling"></a>
+Some tools we'll use today to explore the cookbook include:</p>
 
 <ol>
 <li>
@@ -176,9 +183,10 @@ sudo ldconfig
 </pre></div>
 
 <hr><h2>
-<a name="cookbook-handling-techniques" class="anchor" href="#cookbook-handling-techniques"><span class="octicon octicon-link"></span></a>Cookbook Handling Techniques</h2>
+<a name="how-to-use-the-cookbook" class="anchor" href="#how-to-use-the-cookbook"><span class="octicon octicon-link"></span></a>How To Use The Cookbook</h2>
 
-<p>Now that everything is installed, let's see how easy it is to use the 
+<p><a name="how_to_use"></a>
+Now that everything is installed, let's see how easy it is to use the 
 cookbook examples.</p>
 
 <h3>
@@ -322,7 +330,8 @@ POINT <span class="o">(</span>1198054.340000000083819 648493.089999999967404<spa
 </ol><hr><h2>
 <a name="ogr-datasources-layers----oh-my" class="anchor" href="#ogr-datasources-layers----oh-my"><span class="octicon octicon-link"></span></a>OGR, DataSources, Layers -- Oh My!</h2>
 
-<p>The official <a href="http://gdal.org/python/">Python GDAL/OGR</a> binding documentation goes
+<p><a name="api_concepts"></a>
+The official <a href="http://gdal.org/python/">Python GDAL/OGR</a> binding documentation goes
 into all the necessary technical detail about the functions and properties for each API 
 module and class. It's a good place
 to roadmap which parts of the API can help you in your workflow. </p>
@@ -431,7 +440,8 @@ Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.htm
 </ol><hr><h2>
 <a name="show-me-something-kinda-cool" class="anchor" href="#show-me-something-kinda-cool"><span class="octicon octicon-link"></span></a>Show Me Something Kinda Cool</h2>
 
-<p>Below are a few modified cookbook examples that do something slightly different:</p>
+<p><a name="show_me"></a>
+Below are a few modified cookbook examples that do something slightly different:</p>
 
 <ol>
 <li>
@@ -595,7 +605,8 @@ this cookbook example:</p>
 </ol><hr><h2>
 <a name="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas"><span class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h2>
 
-<p>The official GDAL/OGR wiki has a long-and-must-read list of <a href="http://trac.osgeo.org/gdal/wiki/PythonGotchas">great gotchas here</a>. I've been bitten
+<p><a name="gotcha"></a>
+The official GDAL/OGR wiki has a long-and-must-read list of <a href="http://trac.osgeo.org/gdal/wiki/PythonGotchas">great gotchas here</a>. I've been bitten
 by the example below:</p>
 
 <ol>
@@ -640,7 +651,11 @@ and only care about geometries:</p>
 </ol><hr><h2>
 <a name="giving-back-contributing-to-the-cookbook-reminder" class="anchor" href="#giving-back-contributing-to-the-cookbook-reminder"><span class="octicon octicon-link"></span></a>Giving Back: Contributing to the Cookbook REMINDER!!!!</h2>
 
-<hr><h3>
+<h2>
+<a name="" class="anchor" href="#"><span class="octicon octicon-link"></span></a><a name="give_back"></a>
+</h2>
+
+<h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
 <p>Thanks to the developers at Pierce County GIS <a href="https://github.com/jericks" class="user-mention">@jericks</a>, Cort Daniels, Michael Payne. Additional thanks to Greg Corradini.</p>
