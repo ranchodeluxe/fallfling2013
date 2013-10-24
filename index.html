@@ -718,17 +718,72 @@ and only care about geometries:</p>
 <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">geom_collection</span><span class="p">:</span> <span class="k">print</span> <span class="n">g</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>
 </pre></div>
 </li>
+<li>
+<p>Tricky tricky example that took awhile to figure out. My output 
+didn't match my attribute filter. 
+We set an attribute filter on the layer and expect ( maybe? probably? )
+that all layer features are immediately filtered. Not so. The filter is
+only respected when we are iteratoring over the layer and using the under-the-hood
+<code>OGR_L_GetNextFeature() function</code>. We can still access all features of the layer
+and this becomes problematic because you might loop through the layer
+using <code>Layer.GetFeatureCount</code> as in the example below. Sean Gillies has a pull
+request which talks about using the iterator to avoid bugs. </p>
+
+<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="c"># Get the input Layer</span>
+
+<span class="n">inShapefile</span> <span class="o">=</span> <span class="s">"/home/gcorradini/Dropbox/LINUX_BASE_WORKSPACE/DATA/SHAPES/KC_ADMIN/parcel_address/parcel_address.shp"</span>
+
+<span class="n">inDriver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">"ESRI Shapefile"</span><span class="p">)</span>
+
+<span class="n">inDataSource</span> <span class="o">=</span> <span class="n">inDriver</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">inShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">inLayer</span> <span class="o">=</span> <span class="n">inDataSource</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+
+<span class="n">inLayer</span><span class="o">.</span><span class="n">SetAttributeFilter</span><span class="p">(</span><span class="s">"PIN = '0000200001'"</span><span class="p">)</span> <span class="c"># filter only one record</span>
+
+<span class="c">#</span>
+<span class="c">#  GOTCHA: we can still access features</span>
+<span class="c">#  that are not covered by the filter </span>
+<span class="c">#  using inLayer.GetFeature(&lt;n+&gt;)</span>
+<span class="c">#  </span>
+<span class="k">print</span> <span class="s">"</span><span class="se">\n</span><span class="s">Features not covered by attribute filter, but still accessible ( YIKES! )..."</span>
+<span class="c">#  imagine that this next line was `for i in range(0, inLayer.GetFeatureCount() )`</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">feat</span> <span class="o">=</span> <span class="n">inLayer</span><span class="o">.</span><span class="n">GetFeature</span><span class="p">(</span> <span class="n">i</span> <span class="p">)</span>
+    <span class="k">print</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetField</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c">#</span>
+<span class="c">#  CORRECT: the filter is only</span>
+<span class="c">#  respected if we use the iterator</span>
+<span class="c">#  OGR_L_GetNextFeature()</span>
+<span class="c">#  which, looping through the inLayer</span>
+<span class="c">#  accomplishes</span>
+<span class="c">#</span>
+<span class="k">print</span> <span class="s">"</span><span class="se">\n</span><span class="s">Features covered by attribute filter..."</span>
+<span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">inLayer</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetField</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c"># this should only print one feature</span>
+
+</pre></div>
+</li>
 </ol><hr><h2>
-<a name="giving-back-contributing-to-the-cookbook-reminder" class="anchor" href="#giving-back-contributing-to-the-cookbook-reminder"><span class="octicon octicon-link"></span></a>Giving Back: Contributing to the Cookbook REMINDER!!!!</h2>
+<a name="giving-back-contributing-to-the-cookbook" class="anchor" href="#giving-back-contributing-to-the-cookbook"><span class="octicon octicon-link"></span></a>Giving Back: Contributing to the Cookbook</h2>
 
-<h2>
-<a name="" class="anchor" href="#"><span class="octicon octicon-link"></span></a><a name="give_back"></a>
-</h2>
+<p><a name="give_back"></a></p>
 
-<h3>
+<p>Since this is a wiki, hopefully you will give a little too. There's a couple ways to contribute
+to the project.</p>
+
+<ol>
+<li><p><em>Create an Issue</em> -- if you don't see an example that you would like to see. Create an <a href="https://github.com/pcjericks/py-gdalogr-cookbook/issues?page=1&amp;state=open">issue on the repo</a></p></li>
+<li><p><em>Solve Issues -- Pull Request</em> -- if you like to solve issues too, then fork the repo, clone the code and <a href="https://help.github.com/articles/creating-a-pull-request">create a pull request</a> for each issue you fix. It's nice to put he issue # in the commit hook like these <a href="https://github.com/pcjericks/py-gdalogr-cookbook/issues?page=1&amp;state=closed">examples show</a></p></li>
+</ol><hr><h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>Thanks to the developers at Pierce County GIS <a href="https://github.com/jericks" class="user-mention">@jericks</a>, Cort Daniels, Michael Payne. Additional thanks to Greg Corradini.</p>
+<p>Thanks to the developers at Pierce County GIS <a href="https://github.com/jericks" class="user-mention">@jericks</a>, Cort Daniel, Michael Payne. Additional thanks to Greg Corradini.</p>
       </section>
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
