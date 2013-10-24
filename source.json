@@ -9,13 +9,13 @@
 
 # Welcome!
 <a name="welcome"></a>
-This tutorial is pretty meta. If you are an experienced Python programmer that wants to start using the GDAL/OGR bindings, then all you need is three links to get started:
+This tutorial is pretty meta. If you are an experienced Python programmer that wants to use the GDAL/OGR bindings, then all you need is these three links:
 
 1. [Cookbook examples](http://pcjericks.github.io/py-gdalogr-cookbook/)
 2. [Python GDAL/OGR API Docs](http://gdal.org/python/)
 3. [Python GDAL/OGR Gotchas (Required Reading)](http://trac.osgeo.org/gdal/wiki/PythonGotchas)
 
-If you are new to Python and the GDAL/OGR bindings this think of this as a a quick tour. Now let's get started learning about [Pierce County's awesome Python GDAL/OGR Cookbook](http://pcjericks.github.io/py-gdalogr-cookbook/). 
+If you are new to Python and the GDAL/OGR bindings everything here is a quick tour. Let's get started learning about [Pierce County's awesome Python GDAL/OGR Cookbook](http://pcjericks.github.io/py-gdalogr-cookbook/). 
 But first, you'll need to install a bunch of junk on your computer if it's not already there.
 
 ## Tooling, Installs, Data
@@ -29,8 +29,9 @@ Some tools we'll use today to explore the cookbook include:
 4. **Shapefiles**  # i got mine from [King County GIS Portal](http://www5.kingcounty.gov/gisdataportal/Default.aspx)
 5. **PostGIS**  # if you care about database support
 
-We will **not** be walking people through installs. Installs depend on the 
-operating system you are running among other factors. So here's a list of places 
+We will **not** be walking people through installs. Most of the above tools depend 
+on a few library dependecies and everything varies by
+operating system. So here's a list of places 
 to get started depending on your operating system:
 
 ----
@@ -43,13 +44,13 @@ Most of the time we will just be running `python <script_name>` commands.
 But sometimes we might be running shell commands that look unfamiliar. 
 If you want to explore a Linux-type shell environment 
 then [GitBash](http://code.google.com/p/msysgit/downloads/list?q=label:Featured) 
-is a good place to start.
+is the flipping bomb.
 
 Luckily Python, GDAL/OGR ( w/ Python bindings ) and QGIS can all be installed 
 in one shot with [OSGeo4W](http://trac.osgeo.org/osgeo4w/wiki).
 
-PostGIS can be installed as a plugin after you install the [Postgresql database
-with this sweet GUI installer](http://www.postgresql.org/download/windows/).
+PostGIS can be installed as a plugin after you install the Postgresql database
+with this sweet [GUI installer](http://www.postgresql.org/download/windows/).
 
 ----
 
@@ -145,11 +146,12 @@ sudo ldconfig
 
 ## How To Use The Cookbook
 <a name="how_to_use"></a>
-Now that everything is installed, let's see how easy it is to use the 
-cookbook examples.
+This next section is for people who don't completely get how to interact with the
+cookbook examples. It's pretty straight forward, but if you are new to Python the
+three examples below show the standard ways to run the cookbook examples.
+Now that everything is installed, let's see how easy it is.
 
 ### Python Shell ( Exploratory Hack )
-If you are not familiar with Python, then running the Python shell might be new. 
 The Python shell is an interactive way to explore the code you write while 
 writing it. We can learn
 a lot about the OGR bindings by writing our examples line-by-line in the shell:
@@ -173,7 +175,9 @@ You can also copy and paste the whole example, but writing it out might
 help you remember it better
 
 
-4. You can explore each OGR object using help() command:
+4. You can explore each OGR object using the `help()` and `type()` commands. However, `help()`
+is not that helpful in this case. You probably don't want to be exploring what functions
+the API exposes per class this way. A much better way is to explore the [API docs](http://gdal.org/python/):
 
     ```python
     >>> from osgeo import ogr
@@ -210,7 +214,7 @@ help you remember it better
      ```
 
 
-5. I see there's an AddPoint method on my geometry object. Let's see what we break:
+5. From the abaove explorations, I can see there's an AddPoint method on my geometry object. Let's see what we can break:
 
     ```python
     >>> point.AddPoint( -9999, 99999 )
@@ -246,9 +250,9 @@ into a python file called `count.py`
     ```
 
 ### Python Scripts ( Add Args )
-Let's write a script similar to the example above, but now let's add in ability for passing
-dynamic args as an example. I took the buffer example [here](http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#buffer-a-geometry) 
-and modified.
+Let's write a script similar to the example above, but now let's give it the ability to pass
+dynamic args. I took the buffer example [here](http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#buffer-a-geometry) 
+and modified it to accept a buffer value.
 
 1. Copy the following code into a file called `buffer.py`:
 
@@ -285,14 +289,14 @@ and modified.
 
 -----
 
-## OGR, DataSources, Layers -- Oh My!
+## OGR, DataSources, Layers
 <a name="api_concepts"></a>
 The official [Python GDAL/OGR](http://gdal.org/python/) binding documentation goes
 into all the necessary technical detail about the functions and properties for each API 
 module and class. It's a good place
 to roadmap which parts of the API can help you in your workflow. 
 
-Let's look at some of the cookbook code samples regarding some API concepts.
+Let's talk briefly about the API concepts and point to some of the cookbook code samples.
 
 ### OGR Namespaced Functions
 Since processing geometries is a big part of using these bindings, 
@@ -368,12 +372,17 @@ Full cookbook [example here](http://pcjericks.github.io/py-gdalogr-cookbook/laye
 	conn = ogr.Open(connString)
 	```
 
-### Layers, Features, Geometry Fields
+### Layers, Features, Fields, Geometry, Projections
+
+Layers contain features, features contain fields and a geometry reference, geometry contains projection information. That's good to remember
+because almost all geo APIs model things in a similar fashion.
 
 1. Example of working with layers, features and fields in shapefile. [ cookbook example ](http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#create-a-new-layer-from-the-extent-of-an-existing-layer)
-2. Example of getting layers, features and fields in postgresql. [ cookbooke example ](http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-fields-get-the-user-defined-fields)
+2. Example of getting layers, features and fields in postgresql. [ cookbook example ](http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-fields-get-the-user-defined-fields)
 
 ### Projections
+
+These examples show basic reprojection and manipulation of projections.
 
 1. Example of applying a projection to a geometry. [ cookbook example ](http://pcjericks.github.io/py-gdalogr-cookbook/projection.html#project-a-geometry)
 2. Example of writing a `.prj` file for an ESRI shapefile. [ cookbook example ](http://pcjericks.github.io/py-gdalogr-cookbook/projection.html#create-an-esri-prj-file)
