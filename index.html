@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>A HowTo About A HowTo: The Python GDAL/OGR Cookbook by thebigspoon</title>
+    <title>A HowTo About A HowTo: The Python GDAL/OGR Cookbook by ranchodeluxe</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
     <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
@@ -20,15 +20,18 @@
         <p class="header">CUGOS 2013 Fall Fling</p>
 
         <ul>
-          <li class="download"><a class="buttons" href="https://github.com/thebigspoon/fallfling2013/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/thebigspoon/fallfling2013/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/thebigspoon/fallfling2013">View On GitHub</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/ranchodeluxe/fallfling2013/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/ranchodeluxe/fallfling2013/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/ranchodeluxe/fallfling2013">View On GitHub</a></li>
         </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/ranchodeluxe">ranchodeluxe</a></p>
+
 
       </header>
       <section>
         <h1>
-<a name="index" class="anchor" href="#index"><span class="octicon octicon-link"></span></a>Index</h1>
+<a id="index" class="anchor" href="#index" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Index</h1>
 
 <ol>
 <li><a href="#welcome">welcome</a></li>
@@ -37,8 +40,10 @@
 <li><a href="#api_concepts">api concepts quicky</a></li>
 <li><a href="#gotcha">tricks, trapdoors, gotchas</a></li>
 <li><a href="#give_back">this is a wiki -- how to give back</a></li>
-</ol><h1>
-<a name="welcome" class="anchor" href="#welcome"><span class="octicon octicon-link"></span></a>Welcome!</h1>
+</ol>
+
+<h1>
+<a id="welcome" class="anchor" href="#welcome" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome!</h1>
 
 <p><a name="welcome"></a>
 This tutorial is pretty meta. If you are an experienced Python programmer that wants to use the GDAL/OGR bindings, then all you need is these three links:</p>
@@ -47,11 +52,13 @@ This tutorial is pretty meta. If you are an experienced Python programmer that w
 <li><a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Cookbook examples</a></li>
 <li><a href="http://gdal.org/python/">Python GDAL/OGR API Docs</a></li>
 <li><a href="http://trac.osgeo.org/gdal/wiki/PythonGotchas">Python GDAL/OGR Gotchas (Required Reading)</a></li>
-</ol><p>If you are new to Python and the GDAL/OGR bindings everything here is a quick tour. Let's get started learning about <a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Pierce County's awesome Python GDAL/OGR Cookbook</a>. 
+</ol>
+
+<p>If you are new to Python and the GDAL/OGR bindings everything here is a quick tour. Let's get started learning about <a href="http://pcjericks.github.io/py-gdalogr-cookbook/">Pierce County's awesome Python GDAL/OGR Cookbook</a>. 
 But first, you'll need to install a bunch of junk on your computer if it's not already there.</p>
 
 <h2>
-<a name="tooling-installs-data" class="anchor" href="#tooling-installs-data"><span class="octicon octicon-link"></span></a>Tooling, Installs, Data</h2>
+<a id="tooling-installs-data" class="anchor" href="#tooling-installs-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tooling, Installs, Data</h2>
 
 <p><a name="tooling"></a>
 Some tools we'll use today to explore the cookbook include:</p>
@@ -68,13 +75,17 @@ Some tools we'll use today to explore the cookbook include:</p>
 </li>
 <li>
 <strong>PostGIS</strong>  # if you care about database support</li>
-</ol><p>We will <strong>not</strong> be walking people through installs. Most of the above tools depend 
+</ol>
+
+<p>We will <strong>not</strong> be walking people through installs. Most of the above tools depend 
 on a few library dependecies and everything varies by
 operating system. So here's a list of places 
 to get started depending on your operating system:</p>
 
-<hr><h4>
-<a name="windows" class="anchor" href="#windows"><span class="octicon octicon-link"></span></a>Windows</h4>
+<hr>
+
+<h4>
+<a id="windows" class="anchor" href="#windows" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Windows</h4>
 
 <p>There's no particular reason to use 
 <a href="http://code.google.com/p/msysgit/downloads/list?q=label:Featured">GitBash</a> 
@@ -91,8 +102,10 @@ in one shot with <a href="http://trac.osgeo.org/osgeo4w/wiki">OSGeo4W</a>.</p>
 <p>PostGIS can be installed as a plugin after you install the Postgresql database
 with this sweet <a href="http://www.postgresql.org/download/windows/">GUI installer</a>.</p>
 
-<hr><h4>
-<a name="mac" class="anchor" href="#mac"><span class="octicon octicon-link"></span></a>Mac</h4>
+<hr>
+
+<h4>
+<a id="mac" class="anchor" href="#mac" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mac</h4>
 
 <p>Specific GDAL install instructions can be found 
 <a href="http://www.kyngchaos.com/software:frameworks">here</a>. 
@@ -100,88 +113,91 @@ That tutorial references
 <a href="http://www.kyngchaos.com/software:frameworks">this repository</a> 
 where you can find QGIS and PostGIS among a number of other GIS installs for Mac.</p>
 
-<hr><h4>
-<a name="linux--debian-and-ubuntu-" class="anchor" href="#linux--debian-and-ubuntu-"><span class="octicon octicon-link"></span></a>Linux ( Debian and Ubuntu )</h4>
+<hr>
+
+<h4>
+<a id="linux--debian-and-ubuntu-" class="anchor" href="#linux--debian-and-ubuntu-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Linux ( Debian and Ubuntu )</h4>
 
 <p>If you are into using packages then you probably want to use 
 the <a href="https://wiki.ubuntu.com/UbuntuGIS">UbuntuGIS PPA</a>.</p>
 
 <p>If you like to run <code>config, make, make install</code> stuff then:</p>
 
-<div class="highlight highlight-bash"><pre><span class="c">#</span>
-<span class="c"># get subversion, git</span>
-<span class="c">#</span>
-<span class="nv">$ </span>sudo apt-get install subversion git
+<div class="highlight highlight-source-shell"><pre><span class="pl-c">#</span>
+<span class="pl-c"># get subversion, git</span>
+<span class="pl-c">#</span>
+$ sudo apt-get install subversion git
 
-<span class="c">#</span>
-<span class="c"># get gcc components and build tools</span>
-<span class="c">#</span>
-<span class="nv">$ </span>sudo apt-get install build-essential libtool automake binutils
+<span class="pl-c">#</span>
+<span class="pl-c"># get gcc components and build tools</span>
+<span class="pl-c">#</span>
+$ sudo apt-get install build-essential libtool automake binutils
 
-<span class="c">#</span>
-<span class="c"># python tools</span>
-<span class="c">#</span>
-<span class="nv">$ </span>sudo apt-get install python-setuptools python-dev python-psycopg2 python-virtualenv
+<span class="pl-c">#</span>
+<span class="pl-c"># python tools</span>
+<span class="pl-c">#</span>
+$ sudo apt-get install python-setuptools python-dev python-psycopg2 python-virtualenv
 
 
-<span class="c">#</span>
-<span class="c">#  PROJ4</span>
-<span class="c">#</span>
+<span class="pl-c">#</span>
+<span class="pl-c">#  PROJ4</span>
+<span class="pl-c">#</span>
 mkdir -p /usr/local/src/proj
-<span class="nb">cd</span> /usr/local/src/proj
-wget http://download.osgeo.org/proj/proj-4.7.0.tar.gz <span class="c"># or the one you want</span>
+<span class="pl-c1">cd</span> /usr/local/src/proj
+wget http://download.osgeo.org/proj/proj-4.7.0.tar.gz <span class="pl-c"># or the one you want</span>
 tar -xzvf proj-4.7.0.tar.gz
-<span class="nb">cd </span>proj-4.7.0/nad
+<span class="pl-c1">cd</span> proj-4.7.0/nad
 wget http://download.osgeo.org/proj/proj-datumgrid-1.5.zip
 sudo apt-get install zip
 unzip proj-datumgrid-1.5.zip
 rm proj-datumgrid-1.5.zip
-<span class="nb">cd</span> ..
+<span class="pl-c1">cd</span> ..
 ./configure
 make
 sudo make install
 sudo ldconfig
 
-<span class="c"># you'll probably need to define some more projections</span>
+<span class="pl-c"># you'll probably need to define some more projections</span>
 vim /usr/local/share/proj/epsg
-<span class="c"># add the following projections to the end of the file</span>
-<span class="c"># google spherical mercator</span>
-&lt;900913&gt; +proj<span class="o">=</span>merc +a<span class="o">=</span>6378137 +b<span class="o">=</span>6378137 +lat_ts<span class="o">=</span>0.0 +lon_0<span class="o">=</span>0.0 +x_0<span class="o">=</span>0.0 +y_0<span class="o">=</span>0 +k<span class="o">=</span>1.0 +units<span class="o">=</span>m +nadgrids<span class="o">=</span>@null +wktext  +no_defs  &lt;&gt;
-<span class="c"># custom esri projection from http://spatialreference.org/ref/esri/102761/</span>
-&lt;9102761&gt; +proj<span class="o">=</span>lcc +lat_1<span class="o">=</span>18.03333333333334 +lat_2<span class="o">=</span>18.43333333333333 +lat_0<span class="o">=</span>17.83333333333333 +lon_0<span class="o">=</span>-66.43333333333334 +x_0<span class="o">=</span>200000 +y_0<span class="o">=</span>200000 +ellps<span class="o">=</span>GRS80 +datum<span class="o">=</span>NAD83 +to_meter<span class="o">=</span>0.3048006096012192 +no_defs  &lt;&gt;
+<span class="pl-c"># add the following projections to the end of the file</span>
+<span class="pl-c"># google spherical mercator</span>
+<span class="pl-k">&lt;900913&gt;</span> +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs  <span class="pl-k">&lt;&gt;</span>
+<span class="pl-c"># custom esri projection from http://spatialreference.org/ref/esri/102761/</span>
+<span class="pl-k">&lt;9102761&gt;</span> +proj=lcc +lat_1=18.03333333333334 +lat_2=18.43333333333333 +lat_0=17.83333333333333 +lon_0=-66.43333333333334 +x_0=200000 +y_0=200000 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs  <span class="pl-k">&lt;&gt;</span>
 
-<span class="c">#</span>
-<span class="c">#  GEOS</span>
-<span class="c">#</span>
+<span class="pl-c">#</span>
+<span class="pl-c">#  GEOS</span>
+<span class="pl-c">#</span>
 mkdir -p /usr/local/src/geos
-<span class="nb">cd</span> /usr/local/src/geos
-wget http://download.osgeo.org/geos/geos-3.3.1.tar.bz2 <span class="c"># or the one you want</span>
+<span class="pl-c1">cd</span> /usr/local/src/geos
+wget http://download.osgeo.org/geos/geos-3.3.1.tar.bz2 <span class="pl-c"># or the one you want</span>
 tar -xjvf geos-3.3.1.tar.bz2
-<span class="nb">cd </span>geos-3.3.1
+<span class="pl-c1">cd</span> geos-3.3.1
 ./configure
 make
 sudo make install
 sudo ldconfig
 
 
-<span class="c">#</span>
-<span class="c">#  GDAL/OGR</span>
-<span class="c">#</span>
+<span class="pl-c">#</span>
+<span class="pl-c">#  GDAL/OGR</span>
+<span class="pl-c">#</span>
 mkdir -p /usr/local/src/gdal
-<span class="nb">cd</span> /usr/local/src/gdal
-<span class="c"># Release</span>
-wget http://download.osgeo.org/gdal/gdal-1.8.1.tar.gz <span class="c"># or the one you want</span>
-tar -xzvf gdal-*.tar.gz
-rm gdal-*.tar.gz
-<span class="nb">cd </span>gdal-*
-./configure --with-python --with-threads --with-pg --with-geos<span class="o">=</span>yes
+<span class="pl-c1">cd</span> /usr/local/src/gdal
+<span class="pl-c"># Release</span>
+wget http://download.osgeo.org/gdal/gdal-1.8.1.tar.gz <span class="pl-c"># or the one you want</span>
+tar -xzvf gdal-<span class="pl-k">*</span>.tar.gz
+rm gdal-<span class="pl-k">*</span>.tar.gz
+<span class="pl-c1">cd</span> gdal-<span class="pl-k">*</span>
+./configure --with-python --with-threads --with-pg --with-geos=yes
 make
 sudo make install
-sudo ldconfig
-</pre></div>
+sudo ldconfig</pre></div>
 
-<hr><h2>
-<a name="how-to-use-the-cookbook" class="anchor" href="#how-to-use-the-cookbook"><span class="octicon octicon-link"></span></a>How To Use The Cookbook</h2>
+<hr>
+
+<h2>
+<a id="how-to-use-the-cookbook" class="anchor" href="#how-to-use-the-cookbook" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To Use The Cookbook</h2>
 
 <p><a name="how_to_use"></a>
 This next section is for people who don't completely get how to interact with the
@@ -190,7 +206,7 @@ three examples below show the standard ways to run the cookbook examples.
 Now that everything is installed, let's see how easy it is.</p>
 
 <h3>
-<a name="python-shell--exploratory-hack-" class="anchor" href="#python-shell--exploratory-hack-"><span class="octicon octicon-link"></span></a>Python Shell ( Exploratory Hack )</h3>
+<a id="python-shell--exploratory-hack-" class="anchor" href="#python-shell--exploratory-hack-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Python Shell ( Exploratory Hack )</h3>
 
 <p>The Python shell is an interactive way to explore the code you write while 
 writing it. We can learn
@@ -204,11 +220,10 @@ as the one about
 <li>
 <p>Go to your shell and type <code>python</code> so it boots into the Python shell ( you should see something similar below ):</p>
 
-<div class="highlight highlight-python"><pre><span class="n">Python</span> <span class="mf">2.7</span><span class="o">.</span><span class="mi">3</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Aug</span>  <span class="mi">1</span> <span class="mi">2012</span><span class="p">,</span> <span class="mo">05</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">39</span><span class="p">)</span> 
-<span class="p">[</span><span class="n">GCC</span> <span class="mf">4.6</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span> <span class="n">on</span> <span class="n">linux2</span>
-<span class="n">Type</span> <span class="s">"help"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">,</span> <span class="s">"credits"</span> <span class="ow">or</span> <span class="s">"license"</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
-<span class="o">&gt;&gt;&gt;</span>
-</pre></div>
+<div class="highlight highlight-source-python"><pre>Python <span class="pl-c1">2.7</span>.3 (default, Aug  <span class="pl-c1">1</span> <span class="pl-c1">2012</span>, <span class="pl-c1">0<span class="pl-ii">5</span></span>:<span class="pl-c1">14</span>:<span class="pl-c1">39</span>) 
+[<span class="pl-c1">GCC</span> <span class="pl-c1">4.6</span>.3] on linux2
+Type <span class="pl-s"><span class="pl-pds">"</span>help<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>copyright<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>credits<span class="pl-pds">"</span></span> <span class="pl-k">or</span> <span class="pl-s"><span class="pl-pds">"</span>license<span class="pl-pds">"</span></span> <span class="pl-k">for</span> more information.
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span></pre></div>
 </li>
 <li><p>Start copying the example line-by-line and hit return at the end of each line.
 You can also copy and paste the whole example, but writing it out might
@@ -218,52 +233,52 @@ help you remember it better</p></li>
 is not that helpful in this case. You probably don't want to be exploring what functions
 the API exposes per class this way. A much better way is to explore the <a href="http://gdal.org/python/">API docs</a>:</p>
 
-<div class="highlight highlight-python"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">wkt</span> <span class="o">=</span> <span class="s">"POINT (1120351.5712494177 741921.4223245403)"</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">point</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">wkt</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span> <span class="n">point</span>  <span class="p">)</span>
-<span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">osgeo</span><span class="o">.</span><span class="n">ogr</span><span class="o">.</span><span class="n">Geometry</span><span class="s">'&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">help</span><span class="p">(</span> <span class="n">point</span> <span class="p">)</span>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> <span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> wkt <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>POINT (1120351.5712494177 741921.4223245403)<span class="pl-pds">"</span></span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> point <span class="pl-k">=</span> ogr.CreateGeometryFromWkt(wkt)
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> <span class="pl-c1">type</span>( point  )
+<span class="pl-k">&lt;</span><span class="pl-k">class</span> <span class="pl-s"><span class="pl-pds">'</span>osgeo.ogr.Geometry<span class="pl-pds">'</span></span><span class="pl-k">&gt;</span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> <span class="pl-c1">help</span>( point )
 
-<span class="n">Help</span> <span class="n">on</span> <span class="n">Geometry</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">osgeo</span><span class="o">.</span><span class="n">ogr</span> <span class="nb">object</span><span class="p">:</span>
+Help on Geometry <span class="pl-k">in</span> module osgeo.ogr <span class="pl-c1">object</span>:
 
-<span class="k">class</span> <span class="nc">Geometry</span><span class="p">(</span><span class="n">__builtin__</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
- <span class="o">|</span>  <span class="n">Proxy</span> <span class="n">of</span> <span class="n">C</span><span class="o">++</span> <span class="n">OGRGeometryShadow</span> <span class="k">class</span>
- <span class="err">|  </span>
- <span class="o">|</span>  <span class="n">Methods</span> <span class="n">defined</span> <span class="n">here</span><span class="p">:</span>
- <span class="o">|</span>  
- <span class="o">|</span>  <span class="n">AddGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
- <span class="o">|</span>      <span class="n">AddGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Geometry</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OGRErr</span>
- <span class="o">|</span>  
- <span class="o">|</span>  <span class="n">AddGeometryDirectly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
- <span class="o">|</span>      <span class="n">AddGeometryDirectly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Geometry</span> <span class="n">other_disown</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OGRErr</span>
- <span class="o">|</span>  
- <span class="o">|</span>  <span class="n">AddPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
- <span class="o">|</span>      <span class="n">AddPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">double</span> <span class="n">y</span><span class="p">,</span> <span class="n">double</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
- <span class="o">|</span>  
- <span class="o">|</span>  <span class="n">AddPoint_2D</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
- <span class="o">|</span>      <span class="n">AddPoint_2D</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">double</span> <span class="n">y</span><span class="p">)</span>
- <span class="o">|</span>  
- <span class="o">|</span>  <span class="n">AssignSpatialReference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
- <span class="o">|</span>      <span class="n">AssignSpatialReference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SpatialReference</span> <span class="n">reference</span><span class="p">)</span>
- <span class="o">|</span>    
+<span class="pl-k">class</span> <span class="pl-en">Geometry</span>(<span class="pl-e">__builtin__</span>.<span class="pl-e">object</span>)
+ |  <span class="pl-en">Proxy</span> <span class="pl-en">of</span> <span class="pl-en">C</span>++ <span class="pl-en">OGRGeometryShadow</span> <span class="pl-k">class</span>
+ |  
+ |  <span class="pl-en">Methods</span> <span class="pl-en">defined</span> <span class="pl-en">here</span>:
+ <span class="pl-k">|</span>  
+ <span class="pl-k">|</span>  AddGeometry(<span class="pl-v">self</span>, <span class="pl-k">*</span>args)
+ <span class="pl-k">|</span>      AddGeometry(<span class="pl-v">self</span>, Geometry other) <span class="pl-ii">-&gt;</span> OGRErr
+ <span class="pl-k">|</span>  
+ <span class="pl-k">|</span>  AddGeometryDirectly(<span class="pl-v">self</span>, <span class="pl-k">*</span>args)
+ <span class="pl-k">|</span>      AddGeometryDirectly(<span class="pl-v">self</span>, Geometry other_disown) <span class="pl-ii">-&gt;</span> OGRErr
+ <span class="pl-k">|</span>  
+ <span class="pl-k">|</span>  AddPoint(<span class="pl-v">self</span>, <span class="pl-k">*</span>args, <span class="pl-k">**</span>kwargs)
+ <span class="pl-k">|</span>      AddPoint(<span class="pl-v">self</span>, double x, double y, double <span class="pl-v">z</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>)
+ <span class="pl-k">|</span>  
+ <span class="pl-k">|</span>  AddPoint_2D(<span class="pl-v">self</span>, <span class="pl-k">*</span>args)
+ <span class="pl-k">|</span>      AddPoint_2D(<span class="pl-v">self</span>, double x, double y)
+ <span class="pl-k">|</span>  
+ <span class="pl-k">|</span>  AssignSpatialReference(<span class="pl-v">self</span>, <span class="pl-k">*</span>args)
+ <span class="pl-k">|</span>      AssignSpatialReference(<span class="pl-v">self</span>, SpatialReference reference)
+ <span class="pl-k">|</span>    
 
- <span class="o">...</span><span class="n">output</span> <span class="n">truncated</span><span class="o">...</span>
-</pre></div>
+ <span class="pl-c1">...</span>output truncated<span class="pl-c1">...</span></pre></div>
 </li>
 <li>
 <p>From the abaove explorations, I can see there's an AddPoint method on my geometry object. Let's see what we can break:</p>
 
-<div class="highlight highlight-python"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">point</span><span class="o">.</span><span class="n">AddPoint</span><span class="p">(</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span> <span class="mi">99999</span> <span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">point</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>
-<span class="s">'POINT (-9999 99999 0)'</span>
-<span class="c">#</span>
-<span class="c"># Looks like that overrides our initial geometry. That's not good!</span>
-<span class="c">#</span>
-</pre></div>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> point.AddPoint( <span class="pl-k">-</span><span class="pl-c1">9999</span>, <span class="pl-c1">99999</span> )
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> point.ExportToWkt()
+<span class="pl-s"><span class="pl-pds">'</span>POINT (-9999 99999 0)<span class="pl-pds">'</span></span>
+<span class="pl-c">#</span>
+<span class="pl-c"># Looks like that overrides our initial geometry. That's not good!</span>
+<span class="pl-c">#</span></pre></div>
 </li>
-</ol><h3>
-<a name="python-scripts--one-offs-" class="anchor" href="#python-scripts--one-offs-"><span class="octicon octicon-link"></span></a>Python Scripts ( One Offs )</h3>
+</ol>
+
+<h3>
+<a id="python-scripts--one-offs-" class="anchor" href="#python-scripts--one-offs-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Python Scripts ( One Offs )</h3>
 
 <p>We can also take the examples from the cookbook and run them as Python scripts.
 This is assuming you didn't want to pass in any dynamic arguments.</p>
@@ -275,21 +290,21 @@ into a python file called <code>count.py</code></p></li>
 <li>
 <p>Then in the shell navigate to the directory where your <code>count.py</code> file exists and run:</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ </span>python count.py
-</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ python count.py</pre></div>
 </li>
 <li>
 <p>The code will run and should output content to the shell window like this:</p>
 
-<div class="highlight highlight-bash"><pre>0<span class="o">)</span>. POINT <span class="o">(</span>1181866 615654<span class="o">)</span>
-1<span class="o">)</span>. POINT <span class="o">(</span>1205917 623979<span class="o">)</span>
-2<span class="o">)</span>. POINT <span class="o">(</span>1227192 643405<span class="o">)</span>
-3<span class="o">)</span>. POINT <span class="o">(</span>1224880 665143<span class="o">)</span>
-
+<div class="highlight highlight-source-shell"><pre>0). POINT (1181866 615654)
+1). POINT (1205917 623979)
+2). POINT (1227192 643405)
+3). POINT (1224880 665143)
 </pre></div>
 </li>
-</ol><h3>
-<a name="python-scripts--add-args-" class="anchor" href="#python-scripts--add-args-"><span class="octicon octicon-link"></span></a>Python Scripts ( Add Args )</h3>
+</ol>
+
+<h3>
+<a id="python-scripts--add-args-" class="anchor" href="#python-scripts--add-args-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Python Scripts ( Add Args )</h3>
 
 <p>Let's write a script similar to the example above, but now let's give it the ability to pass
 dynamic args. I took the buffer example <a href="http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#buffer-a-geometry">here</a> 
@@ -299,37 +314,39 @@ and modified it to accept a buffer value.</p>
 <li>
 <p>Copy the following code into a file called <code>buffer.py</code>:</p>
 
-<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
+<span class="pl-k">import</span> sys
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+<span class="pl-k">if</span> <span class="pl-c1">__name__</span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">'</span>__main__<span class="pl-pds">'</span></span>:
 
-    <span class="c"># make sure user passes buffer value</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">print</span> <span class="o">&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">'[ ERROR ]: you must pass a buffer value'</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">)</span>
+    <span class="pl-c"># make sure user passes buffer value</span>
+    <span class="pl-k">if</span> <span class="pl-c1">len</span>( sys.argv ) <span class="pl-k">&lt;</span> <span class="pl-c1">2</span>:
+        <span class="pl-c1">print</span> <span class="pl-k">&gt;&gt;</span> sys.stderr, <span class="pl-s"><span class="pl-pds">'</span>[ ERROR ]: you must pass a buffer value<span class="pl-pds">'</span></span>
+        sys.exit( <span class="pl-c1">1</span> )
 
-    <span class="n">bufferDistance</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
-    <span class="n">wkt</span> <span class="o">=</span> <span class="s">"POINT (1198054.34 648493.09)"</span>
-    <span class="n">pt</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">wkt</span><span class="p">)</span>
-    <span class="n">poly</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">Buffer</span><span class="p">(</span><span class="n">bufferDistance</span><span class="p">)</span>
-    <span class="k">print</span> <span class="s">"</span><span class="si">%s</span><span class="s"> buffered by </span><span class="si">%d</span><span class="s"> is </span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">(),</span> <span class="n">bufferDistance</span><span class="p">,</span> <span class="n">poly</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
-
+    bufferDistance <span class="pl-k">=</span> <span class="pl-c1">int</span>( sys.argv[<span class="pl-c1">1</span>] )
+    wkt <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>POINT (1198054.34 648493.09)<span class="pl-pds">"</span></span>
+    pt <span class="pl-k">=</span> ogr.CreateGeometryFromWkt(wkt)
+    poly <span class="pl-k">=</span> pt.Buffer(bufferDistance)
+    <span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-c1">%s</span> buffered by <span class="pl-c1">%d</span> is <span class="pl-c1">%s</span><span class="pl-pds">"</span></span> <span class="pl-k">%</span> (pt.ExportToWkt(), bufferDistance, poly.ExportToWkt())
 </pre></div>
 </li>
 <li>
 <p>Now when we run it we pass a buffer value. If we don't pass anything, it throws an error:</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ </span>python test.py
-<span class="o">[</span> ERROR <span class="o">]</span>: you must pass a buffer value
-<span class="nv">$ </span>python test.py 2
-POINT <span class="o">(</span>1198054.340000000083819 648493.089999999967404<span class="o">)</span> buffered by 2 is POLYGON <span class="o">((</span>1198056.340000000083819 648493.089999999967404,1198056.337259069550782 648492.985328087466769,1198056.329043790930882 648492.880943073425442,1198056....
-<span class="c"># ... output truncated cause it's long dude</span>
-
-</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ python <span class="pl-c1">test</span>.py
+[ ERROR ]: you must pass a buffer value
+$ python <span class="pl-c1">test</span>.py 2
+POINT (1198054.340000000083819 648493.089999999967404) buffered by 2 is POLYGON <span class="pl-s"><span class="pl-pds">((</span><span class="pl-c1">1198056</span>.<span class="pl-c1">340000000083819</span> <span class="pl-c1">648493</span>.<span class="pl-c1">089999999967404</span><span class="pl-k">,</span><span class="pl-c1">1198056</span>.<span class="pl-c1">337259069550782</span> <span class="pl-c1">648492</span>.<span class="pl-c1">985328087466769</span><span class="pl-k">,</span><span class="pl-c1">1198056</span>.<span class="pl-c1">329043790930882</span> <span class="pl-c1">648492</span>.<span class="pl-c1">880943073425442</span><span class="pl-k">,</span><span class="pl-c1">1198056</span>....</span>
+<span class="pl-s"># ... output truncated cause it's long dude</span>
+<span class="pl-s"></span></pre></div>
 </li>
-</ol><hr><h2>
-<a name="ogr-datasources-layers" class="anchor" href="#ogr-datasources-layers"><span class="octicon octicon-link"></span></a>OGR, DataSources, Layers</h2>
+</ol>
+
+<hr>
+
+<h2>
+<a id="ogr-datasources-layers" class="anchor" href="#ogr-datasources-layers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OGR, DataSources, Layers</h2>
 
 <p><a name="api_concepts"></a>
 The official <a href="http://gdal.org/python/">Python GDAL/OGR</a> binding documentation goes
@@ -340,7 +357,7 @@ to roadmap which parts of the API can help you in your workflow. </p>
 <p>Let's talk briefly about the API concepts and point to some of the cookbook code samples.</p>
 
 <h3>
-<a name="ogr-namespaced-functions" class="anchor" href="#ogr-namespaced-functions"><span class="octicon octicon-link"></span></a>OGR Namespaced Functions</h3>
+<a id="ogr-namespaced-functions" class="anchor" href="#ogr-namespaced-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OGR Namespaced Functions</h3>
 
 <p>Since processing geometries is a big part of using these bindings, 
 the module <code>osgeo.ogr</code> contains a bunch of helper functions for creating
@@ -358,8 +375,10 @@ what is offered by looking at the module <a href="http://gdal.org/python/">docs<
 </li>
 <li>Parse GeoJSON into a geometry object using <code>osgeo.ogr.CraeteGeometryFromJson</code>: <a href="http://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#create-geometry-from-geojson">cookbook example</a>
 </li>
-</ol><h3>
-<a name="datasources" class="anchor" href="#datasources"><span class="octicon octicon-link"></span></a>DataSources</h3>
+</ol>
+
+<h3>
+<a id="datasources" class="anchor" href="#datasources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DataSources</h3>
 
 <p>To be able to read/write layers and their features we need to 
 have a basic understanding of how to work with <code>osgeo.ogr.Driver</code> and <code>osgeo.ogr.DataSources</code>.
@@ -372,58 +391,57 @@ A quick-and-dirty theoretical explanation about Drivers and DataSources might be
 <p>Example of checking if my GDAL/OGR supports reading/writing from/to Shapefiles and PostgreSQL. 
 Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#is-ogr-driver-available-by-driver-name">example here</a>:</p>
 
-<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
 
-<span class="c">## Shapefile available?</span>
-<span class="n">driverName</span> <span class="o">=</span> <span class="s">"ESRI Shapefile"</span>
-<span class="n">drv</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span> <span class="n">driverName</span> <span class="p">)</span>
-<span class="k">if</span> <span class="n">drv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">"</span><span class="si">%s</span><span class="s"> driver not available.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">driverName</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span>  <span class="s">"</span><span class="si">%s</span><span class="s"> driver IS available.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">driverName</span>
+<span class="pl-c">## Shapefile available?</span>
+driverName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>ESRI Shapefile<span class="pl-pds">"</span></span>
+drv <span class="pl-k">=</span> ogr.GetDriverByName( driverName )
+<span class="pl-k">if</span> drv <span class="pl-k">is</span> <span class="pl-c1">None</span>:
+    <span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-c1">%s</span> driver not available.<span class="pl-cce">\n</span><span class="pl-pds">"</span></span> <span class="pl-k">%</span> driverName
+<span class="pl-k">else</span>:
+    <span class="pl-c1">print</span>  <span class="pl-s"><span class="pl-pds">"</span><span class="pl-c1">%s</span> driver IS available.<span class="pl-cce">\n</span><span class="pl-pds">"</span></span> <span class="pl-k">%</span> driverName
 
-<span class="c">## PostgreSQL available?</span>
-<span class="n">driverName</span> <span class="o">=</span> <span class="s">"PostgreSQL"</span>
-<span class="n">drv</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span> <span class="n">driverName</span> <span class="p">)</span>
-<span class="k">if</span> <span class="n">drv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">"</span><span class="si">%s</span><span class="s"> driver not available.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">driverName</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span>  <span class="s">"</span><span class="si">%s</span><span class="s"> driver IS available.</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">driverName</span>
-</pre></div>
+<span class="pl-c">## PostgreSQL available?</span>
+driverName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>PostgreSQL<span class="pl-pds">"</span></span>
+drv <span class="pl-k">=</span> ogr.GetDriverByName( driverName )
+<span class="pl-k">if</span> drv <span class="pl-k">is</span> <span class="pl-c1">None</span>:
+    <span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-c1">%s</span> driver not available.<span class="pl-cce">\n</span><span class="pl-pds">"</span></span> <span class="pl-k">%</span> driverName
+<span class="pl-k">else</span>:
+    <span class="pl-c1">print</span>  <span class="pl-s"><span class="pl-pds">"</span><span class="pl-c1">%s</span> driver IS available.<span class="pl-cce">\n</span><span class="pl-pds">"</span></span> <span class="pl-k">%</span> driverName</pre></div>
 </li>
 <li>
 <p>Example of opening a Shapefile datasource for read/write. Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-shapefile-feature-count">example here</a>:</p>
 
-<div class="highlight highlight-python"><pre><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
-<span class="n">daShapefile</span> <span class="o">=</span> <span class="s">r"C:\Temp\Voting_Centers_and_Ballot_Sites.shp"</span>
-<span class="n">driver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">'ESRI Shapefile'</span><span class="p">)</span>
-<span class="n">dataSource</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">daShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c"># 0 means read-only. 1 means writeable.</span>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">import</span> os
+<span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
+daShapefile <span class="pl-k">=</span> <span class="pl-sr"><span class="pl-k">r</span><span class="pl-pds">"</span>C:<span class="pl-cce">\T</span>emp<span class="pl-cce">\V</span>oting_Centers_and_Ballot_Sites<span class="pl-c1">.</span>shp<span class="pl-pds">"</span></span>
+driver <span class="pl-k">=</span> ogr.GetDriverByName(<span class="pl-s"><span class="pl-pds">'</span>ESRI Shapefile<span class="pl-pds">'</span></span>)
+dataSource <span class="pl-k">=</span> driver.Open(daShapefile, <span class="pl-c1">0</span>) <span class="pl-c"># 0 means read-only. 1 means writeable.</span>
 
-<span class="c">#</span>
-<span class="c">#  NOTE: this is a manual way to open a shapefile. osgeo.ogr.Open() can also</span>
-<span class="c">#  sniff the file URI to figure out type of driver to use. The above can be </span>
-<span class="c">#  rewritten</span>
-<span class="c">#</span>
-<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
-<span class="n">daShapefile</span> <span class="o">=</span> <span class="s">r"C:\Temp\Voting_Centers_and_Ballot_Sites.shp"</span>
-<span class="n">dataSource</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">daShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c"># 0 means read-only. 1 means writeable.</span>
-</pre></div>
+<span class="pl-c">#</span>
+<span class="pl-c">#  <span class="pl-k">NOTE</span>: this is a manual way to open a shapefile. osgeo.ogr.Open() can also</span>
+<span class="pl-c">#  sniff the file URI to figure out type of driver to use. The above can be </span>
+<span class="pl-c">#  rewritten</span>
+<span class="pl-c">#</span>
+<span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
+daShapefile <span class="pl-k">=</span> <span class="pl-sr"><span class="pl-k">r</span><span class="pl-pds">"</span>C:<span class="pl-cce">\T</span>emp<span class="pl-cce">\V</span>oting_Centers_and_Ballot_Sites<span class="pl-c1">.</span>shp<span class="pl-pds">"</span></span>
+dataSource <span class="pl-k">=</span> ogr.Open(daShapefile, <span class="pl-c1">0</span>) <span class="pl-c"># 0 means read-only. 1 means writeable.</span></pre></div>
 </li>
 <li>
 <p>Example of opening a PostGIS datasource to run SQL. Full cookbook <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-all-postgis-layers-in-a-postgresql-database">example here</a>:</p>
 
-<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
-<span class="n">databaseServer</span> <span class="o">=</span> <span class="s">"&lt;IP of database server OR Name of database server"</span>
-<span class="n">databaseName</span> <span class="o">=</span> <span class="s">"&lt;Name of database&gt;"</span>
-<span class="n">databaseUser</span> <span class="o">=</span> <span class="s">"&lt;User name&gt;"</span>
-<span class="n">databasePW</span> <span class="o">=</span> <span class="s">"&lt;User password&gt;"</span>
-<span class="n">connString</span> <span class="o">=</span> <span class="s">"PG: host=</span><span class="si">%s</span><span class="s"> dbname=</span><span class="si">%s</span><span class="s"> user=</span><span class="si">%s</span><span class="s"> password=</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span><span class="p">(</span><span class="n">databaseServer</span><span class="p">,</span><span class="n">databaseName</span><span class="p">,</span><span class="n">databaseUser</span><span class="p">,</span><span class="n">databasePW</span><span class="p">)</span>
-<span class="n">conn</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">connString</span><span class="p">)</span>
-</pre></div>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
+databaseServer <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;IP of database server OR Name of database server<span class="pl-pds">"</span></span>
+databaseName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;Name of database&gt;<span class="pl-pds">"</span></span>
+databaseUser <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;User name&gt;<span class="pl-pds">"</span></span>
+databasePW <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;User password&gt;<span class="pl-pds">"</span></span>
+connString <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>PG: host=<span class="pl-c1">%s</span> dbname=<span class="pl-c1">%s</span> user=<span class="pl-c1">%s</span> password=<span class="pl-c1">%s</span><span class="pl-pds">"</span></span> <span class="pl-k">%</span>(databaseServer,databaseName,databaseUser,databasePW)
+conn <span class="pl-k">=</span> ogr.Open(connString)</pre></div>
 </li>
-</ol><h3>
-<a name="layers-features-fields-geometry-projections" class="anchor" href="#layers-features-fields-geometry-projections"><span class="octicon octicon-link"></span></a>Layers, Features, Fields, Geometry, Projections</h3>
+</ol>
+
+<h3>
+<a id="layers-features-fields-geometry-projections" class="anchor" href="#layers-features-fields-geometry-projections" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Layers, Features, Fields, Geometry, Projections</h3>
 
 <p>Layers contain features, features contain fields and a geometry reference, geometry contains projection information. That's good to remember
 because almost all geo APIs model things in a similar fashion.</p>
@@ -433,8 +451,10 @@ because almost all geo APIs model things in a similar fashion.</p>
 </li>
 <li>Example of getting layers, features and fields in postgresql. <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-fields-get-the-user-defined-fields"> cookbook example </a>
 </li>
-</ol><h3>
-<a name="projections" class="anchor" href="#projections"><span class="octicon octicon-link"></span></a>Projections</h3>
+</ol>
+
+<h3>
+<a id="projections" class="anchor" href="#projections" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Projections</h3>
 
 <p>These examples show basic reprojection and manipulation of projections.</p>
 
@@ -443,8 +463,12 @@ because almost all geo APIs model things in a similar fashion.</p>
 </li>
 <li>Example of writing a <code>.prj</code> file for an ESRI shapefile. <a href="http://pcjericks.github.io/py-gdalogr-cookbook/projection.html#create-an-esri-prj-file"> cookbook example </a>
 </li>
-</ol><hr><h2>
-<a name="show-me-something-kinda-cool" class="anchor" href="#show-me-something-kinda-cool"><span class="octicon octicon-link"></span></a>Show Me Something Kinda Cool</h2>
+</ol>
+
+<hr>
+
+<h2>
+<a id="show-me-something-kinda-cool" class="anchor" href="#show-me-something-kinda-cool" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show Me Something Kinda Cool</h2>
 
 <p><a name="show_me"></a>
 Below are a few modified cookbook examples that do something slightly different:</p>
@@ -454,63 +478,63 @@ Below are a few modified cookbook examples that do something slightly different:
 <p>Example showing how we can find the most interesting King County parcels. <strong>Interesting</strong> is
 defined here to be "multi-part parcels with a part count &gt; 13". If you are using Linux-type
 shell it goes further to show how we can visualize some of these features with the
-famous <a href="http://mapfarts.com%5D%20instead%20of%20doing%20it%20in%20QGIS.%20Derived%20from%20%5Bthis%0Acookbook%20example%5D(http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-feature-count-by-layer-name">Mapfarts.com</a>:</p>
+famous [Mapfarts.com](<a href="http://mapfarts.com">http://mapfarts.com</a>] instead of doing it in QGIS. Derived from <a href="http://pcjericks.github.io/py-gdalogr-cookbook/layers.html#get-postgis-layer-feature-count-by-layer-name">this
+cookbook example</a>:</p>
 
-<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
+<span class="pl-k">import</span> sys
 
-<span class="n">databaseServer</span> <span class="o">=</span> <span class="s">"127.0.0.1"</span>
-<span class="n">databaseName</span> <span class="o">=</span> <span class="s">"ogrdemo"</span>
-<span class="n">databaseUser</span> <span class="o">=</span> <span class="s">"postgres"</span>
-<span class="n">databasePW</span> <span class="o">=</span> <span class="s">"postgres"</span>
-<span class="n">connString</span> <span class="o">=</span> <span class="s">"PG: host=</span><span class="si">%s</span><span class="s"> dbname=</span><span class="si">%s</span><span class="s"> user=</span><span class="si">%s</span><span class="s"> password=</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span><span class="p">(</span><span class="n">databaseServer</span><span class="p">,</span><span class="n">databaseName</span><span class="p">,</span><span class="n">databaseUser</span><span class="p">,</span><span class="n">databasePW</span><span class="p">)</span>
+databaseServer <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>127.0.0.1<span class="pl-pds">"</span></span>
+databaseName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>ogrdemo<span class="pl-pds">"</span></span>
+databaseUser <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>postgres<span class="pl-pds">"</span></span>
+databasePW <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>postgres<span class="pl-pds">"</span></span>
+connString <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>PG: host=<span class="pl-c1">%s</span> dbname=<span class="pl-c1">%s</span> user=<span class="pl-c1">%s</span> password=<span class="pl-c1">%s</span><span class="pl-pds">"</span></span> <span class="pl-k">%</span>(databaseServer,databaseName,databaseUser,databasePW)
 
-<span class="k">def</span> <span class="nf">GetPGLayerFields</span><span class="p">(</span> <span class="n">lyr_name</span> <span class="p">):</span>
-    <span class="n">conn</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">connString</span><span class="p">)</span>
+<span class="pl-k">def</span> <span class="pl-en">GetPGLayerFields</span>( <span class="pl-smi">lyr_name</span> ):
+    conn <span class="pl-k">=</span> ogr.Open(connString)
 
-    <span class="n">lyr</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">(</span> <span class="n">lyr_name</span> <span class="p">)</span>
-    <span class="k">if</span> <span class="n">lyr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">print</span> <span class="o">&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">'[ ERROR ]: layer name = "</span><span class="si">%s</span><span class="s">" could not be found in database "</span><span class="si">%s</span><span class="s">"'</span> <span class="o">%</span> <span class="p">(</span> <span class="n">lyr_name</span><span class="p">,</span> <span class="n">databaseName</span> <span class="p">)</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">)</span>
+    lyr <span class="pl-k">=</span> conn.GetLayer( lyr_name )
+    <span class="pl-k">if</span> lyr <span class="pl-k">is</span> <span class="pl-c1">None</span>:
+        <span class="pl-c1">print</span> <span class="pl-k">&gt;&gt;</span> sys.stderr, <span class="pl-s"><span class="pl-pds">'</span>[ ERROR ]: layer name = "<span class="pl-c1">%s</span>" could not be found in database "<span class="pl-c1">%s</span>"<span class="pl-pds">'</span></span> <span class="pl-k">%</span> ( lyr_name, databaseName )
+        sys.exit( <span class="pl-c1">1</span> )
 
-    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">interesting_ones</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">lyr</span><span class="p">:</span>
-        <span class="n">geom</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">geom</span><span class="o">.</span><span class="n">GetGeometryCount</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">13</span><span class="p">:</span>
-            <span class="c">#</span>
-            <span class="c">#  interesting to note here that if we didn't Clone()</span>
-            <span class="c">#  the geometry here, then trying to reference</span>
-            <span class="c">#  it later will blow up -- guessing because we</span>
-            <span class="c">#  lost reference to the feature it was part of</span>
-            <span class="c">#  in this loop -- GOTCHA!</span>
-            <span class="c">#</span>
-            <span class="n">interesting_ones</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">geom</span><span class="o">.</span><span class="n">Clone</span><span class="p">()</span> <span class="p">)</span>
+    counter <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    interesting_ones <span class="pl-k">=</span> []
+    <span class="pl-k">for</span> feat <span class="pl-k">in</span> lyr:
+        geom <span class="pl-k">=</span> feat.GetGeometryRef()
+        <span class="pl-k">if</span> geom.GetGeometryCount() <span class="pl-k">&gt;</span> <span class="pl-c1">13</span>:
+            <span class="pl-c">#</span>
+            <span class="pl-c">#  interesting to note here that if we didn't Clone()</span>
+            <span class="pl-c">#  the geometry here, then trying to reference</span>
+            <span class="pl-c">#  it later will blow up -- guessing because we</span>
+            <span class="pl-c">#  lost reference to the feature it was part of</span>
+            <span class="pl-c">#  in this loop -- GOTCHA!</span>
+            <span class="pl-c">#</span>
+            interesting_ones.append( geom.Clone() )
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">interesting_ones</span><span class="p">:</span>
-        <span class="k">print</span> <span class="n">i</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> interesting_ones:
+        <span class="pl-c1">print</span> i.ExportToWkt()
 
-    <span class="n">conn</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+    conn.Destroy()
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">print</span> <span class="o">&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">'[ ERROR ]: you must pass at least one argument -- the layer name argument'</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">)</span>
+<span class="pl-k">if</span> <span class="pl-c1">__name__</span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">'</span>__main__<span class="pl-pds">'</span></span>:
 
-    <span class="n">lyr_name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">GetPGLayerFields</span><span class="p">(</span> <span class="n">lyr_name</span> <span class="p">)</span>
-</pre></div>
+    <span class="pl-k">if</span> <span class="pl-c1">len</span>( sys.argv ) <span class="pl-k">&lt;</span> <span class="pl-c1">2</span>:
+        <span class="pl-c1">print</span> <span class="pl-k">&gt;&gt;</span> sys.stderr, <span class="pl-s"><span class="pl-pds">'</span>[ ERROR ]: you must pass at least one argument -- the layer name argument<span class="pl-pds">'</span></span>
+        sys.exit( <span class="pl-c1">1</span> )
+
+    lyr_name <span class="pl-k">=</span> sys.argv[<span class="pl-c1">1</span>]
+    GetPGLayerFields( lyr_name )</pre></div>
 
 <p>Now run it and dump the output WKT geometry to a text file:</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ </span>python interestingfarts.py parcel &gt; OUTPUT.txt
-</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ python interestingfarts.py parcel <span class="pl-k">&gt;</span> OUTPUT.txt</pre></div>
 
 <p>Now read in the WKT geometry line by line and throw it at <a href="http://mapfart.com">Mapfart.com</a> to break the service. ( NOTE:
 you must setup a mapfart alias in a Linux-like shell for this to work. See setup section <a href="http://mapfart.com/">here</a> ):</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ </span><span class="k">while </span><span class="nb">read</span> -r x; <span class="k">do </span><span class="nb">echo</span> <span class="nv">$x</span> | mapfart; <span class="k">done</span> &lt; OUTPUT.txt
+<div class="highlight highlight-source-shell"><pre>$ <span class="pl-k">while</span> <span class="pl-c1">read</span> -r x<span class="pl-k">;</span> <span class="pl-k">do</span> <span class="pl-c1">echo</span> <span class="pl-smi">$x</span> <span class="pl-k">|</span> mapfart<span class="pl-k">;</span> <span class="pl-k">done</span> <span class="pl-k">&lt;</span> OUTPUT.txt
 http://mapfart.com/fart_wm8Sc9
 http://mapfart.com/fart_A6AvAN
 http://mapfart.com/fart_oNlFbR
@@ -521,8 +545,7 @@ http://mapfart.com/fart_UNwJei
 http://mapfart.com/fart_0ndNXu
 http://mapfart.com/fart_8WaaGS
 http://mapfart.com/fart_eh_qRc
-http://mapfart.com/fart_Eced2o
-</pre></div>
+http://mapfart.com/fart_Eced2o</pre></div>
 
 <p>Each of these is a picture of our interesting parcel fart!</p>
 </li>
@@ -533,153 +556,181 @@ this cookbook example:</p>
 
 <p>The <code>ogr2ogr</code> statement we are going to duplicate:</p>
 
-<div class="highlight highlight-bash"><pre><span class="c"># this command says read in "parcel.shp" and write out to "junkmob.shp" </span>
-<span class="c"># where "MINOR" column = 'HYDR' value and only output "PIN" column</span>
-<span class="nv">$ </span>ogr2ogr -f <span class="s2">"ESRI Shapefile"</span> junkmob.shp -select pin -where <span class="s2">"minor = 'HYDR'"</span> parcel.shp
-</pre></div>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># this command says read in "parcel.shp" and write out to "junkmob.shp" </span>
+<span class="pl-c"># where "MINOR" column = 'HYDR' value and only output "PIN" column</span>
+$ ogr2ogr -f <span class="pl-s"><span class="pl-pds">"</span>ESRI Shapefile<span class="pl-pds">"</span></span> junkmob.shp -<span class="pl-k">select</span> <span class="pl-smi">pin</span> -where <span class="pl-s"><span class="pl-pds">"</span>minor = 'HYDR'<span class="pl-pds">"</span></span> parcel.shp</pre></div>
 
 <p>Here's the code approximating the above <code>ogr2ogr</code> example:</p>
 
-<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
 
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="pl-k">import</span> os, sys
 
-<span class="k">def</span> <span class="nf">main</span><span class="p">(</span> <span class="n">field_name_target</span> <span class="p">):</span>
 
-    <span class="c"># Get the input Layer</span>
 
-    <span class="n">inShapefile</span> <span class="o">=</span> <span class="s">"/home/gcorradini/Dropbox/LINUX_BASE_WORKSPACE/DATA/SHAPES/KC_ADMIN/parcel_address/parcel_address.shp"</span>
+<span class="pl-k">def</span> <span class="pl-en">main</span>( <span class="pl-smi">field_name_target</span> ):
 
-    <span class="n">inDriver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">"ESRI Shapefile"</span><span class="p">)</span>
+    <span class="pl-c"># Get the input Layer</span>
 
-    <span class="n">inDataSource</span> <span class="o">=</span> <span class="n">inDriver</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">inShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    inShapefile <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>/home/gcorradini/Dropbox/LINUX_BASE_WORKSPACE/DATA/SHAPES/KC_ADMIN/parcel_address/parcel_address.shp<span class="pl-pds">"</span></span>
 
-    <span class="n">inLayer</span> <span class="o">=</span> <span class="n">inDataSource</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+    inDriver <span class="pl-k">=</span> ogr.GetDriverByName(<span class="pl-s"><span class="pl-pds">"</span>ESRI Shapefile<span class="pl-pds">"</span></span>)
 
-    <span class="n">inLayer</span><span class="o">.</span><span class="n">SetAttributeFilter</span><span class="p">(</span><span class="s">"minor = 'HYDR'"</span><span class="p">)</span> <span class="c"># approximate the filter</span>
+    inDataSource <span class="pl-k">=</span> inDriver.Open(inShapefile, <span class="pl-c1">0</span>)
 
-    <span class="c"># Create the output LayerS</span>
+    inLayer <span class="pl-k">=</span> inDataSource.GetLayer()
 
-    <span class="n">outShapefile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span> <span class="n">inShapefile</span> <span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s">"ogr_api_filter.shp"</span> <span class="p">)</span>
+    inLayer.SetAttributeFilter(<span class="pl-s"><span class="pl-pds">"</span>minor = 'HYDR'<span class="pl-pds">"</span></span>) <span class="pl-c"># approximate the filter</span>
 
-    <span class="n">outDriver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">"ESRI Shapefile"</span><span class="p">)</span>
 
-    <span class="c"># Remove output shapefile if it already exists</span>
 
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">):</span>
+    <span class="pl-c"># Create the output LayerS</span>
 
-        <span class="n">outDriver</span><span class="o">.</span><span class="n">DeleteDataSource</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">)</span>
+    outShapefile <span class="pl-k">=</span> os.path.join( os.path.split( inShapefile )[<span class="pl-c1">0</span>], <span class="pl-s"><span class="pl-pds">"</span>ogr_api_filter.shp<span class="pl-pds">"</span></span> )
 
-    <span class="c"># Create the output shapefile</span>
+    outDriver <span class="pl-k">=</span> ogr.GetDriverByName(<span class="pl-s"><span class="pl-pds">"</span>ESRI Shapefile<span class="pl-pds">"</span></span>)
 
-    <span class="n">outDataSource</span> <span class="o">=</span> <span class="n">outDriver</span><span class="o">.</span><span class="n">CreateDataSource</span><span class="p">(</span><span class="n">outShapefile</span><span class="p">)</span>
 
-    <span class="n">out_lyr_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span> <span class="n">outShapefile</span> <span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="n">outLayer</span> <span class="o">=</span> <span class="n">outDataSource</span><span class="o">.</span><span class="n">CreateLayer</span><span class="p">(</span> <span class="n">out_lyr_name</span><span class="p">,</span> <span class="n">geom_type</span><span class="o">=</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbMultiPolygon</span> <span class="p">)</span>
+    <span class="pl-c"># Remove output shapefile if it already exists</span>
 
-    <span class="c"># Add input Layer Fields to the output Layer if it is the one we want</span>
+    <span class="pl-k">if</span> os.path.exists(outShapefile):
 
-    <span class="n">inLayerDefn</span> <span class="o">=</span> <span class="n">inLayer</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">()</span>
+        outDriver.DeleteDataSource(outShapefile)
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inLayerDefn</span><span class="o">.</span><span class="n">GetFieldCount</span><span class="p">()):</span>
 
-        <span class="n">fieldDefn</span> <span class="o">=</span> <span class="n">inLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 
-        <span class="n">fieldName</span> <span class="o">=</span> <span class="n">fieldDefn</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span>
+    <span class="pl-c"># Create the output shapefile</span>
 
-        <span class="c">#</span>
-        <span class="c"># approximate the select by only </span>
-        <span class="c"># targeting our fileds of interest</span>
-        <span class="c">#</span>
-        <span class="k">if</span> <span class="n">fieldName</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">field_name_target</span><span class="p">:</span>
+    outDataSource <span class="pl-k">=</span> outDriver.CreateDataSource(outShapefile)
 
-            <span class="k">continue</span>
+    out_lyr_name <span class="pl-k">=</span> os.path.splitext( os.path.split( outShapefile )[<span class="pl-c1">1</span>] )[<span class="pl-c1">0</span>]
 
-        <span class="n">outLayer</span><span class="o">.</span><span class="n">CreateField</span><span class="p">(</span><span class="n">fieldDefn</span><span class="p">)</span>
+    outLayer <span class="pl-k">=</span> outDataSource.CreateLayer( out_lyr_name, <span class="pl-v">geom_type</span><span class="pl-k">=</span>ogr.wkbMultiPolygon )
 
-    <span class="c"># Get the output Layer's Feature Definition</span>
 
-    <span class="n">outLayerDefn</span> <span class="o">=</span> <span class="n">outLayer</span><span class="o">.</span><span class="n">GetLayerDefn</span><span class="p">()</span>
 
-    <span class="c"># Add features to the ouput Layer</span>
-    <span class="sd">'''</span>
-<span class="sd">    NOTE: sgillies mentions in a previous pull request</span>
-<span class="sd">    that you should use the feature iterator whenever you can to avoid bugs:</span>
+    <span class="pl-c"># Add input Layer Fields to the output Layer if it is the one we want</span>
 
-<span class="sd">        https://github.com/sgillies/py-gdalogr-cookbook/commit/6f658b80e497b1020a0ef89f5dfcdd6860819496</span>
+    inLayerDefn <span class="pl-k">=</span> inLayer.GetLayerDefn()
 
-<span class="sd">    This is good advice that should be followed. For example, a tricky unexpected</span>
-<span class="sd">        bug that's worth pointing out happens if we were to use the folloing non-feature iterator code</span>
-<span class="sd">    to loop through our inLayer features. Remember that inLayer has an attribute filter set:</span>
+    <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">range</span>(<span class="pl-c1">0</span>, inLayerDefn.GetFieldCount()):
 
-<span class="sd">        for i in range(0, inLayer.GetFeatureCount()):</span>
+        fieldDefn <span class="pl-k">=</span> inLayerDefn.GetFieldDefn(i)
 
-<span class="sd">    The GDAL/OGR Python docs point out that osgeo.ogr.Layer.SetAttributeFilter() works via</span>
-<span class="sd">    OGR_L_GetNextFeature() function. That means you can still access *any* layer's</span>
-<span class="sd">    feature regardless of whether it matches the filter or not using inLayer.GetFeature(&lt;n+&gt;). </span>
-<span class="sd">    This can lead to mind-boggling outputs. Using the feature iterator means that each feature</span>
-<span class="sd">    returned will respect the attribute filter we set on the layer.</span>
-<span class="sd">    '''</span>
+        fieldName <span class="pl-k">=</span> fieldDefn.GetName()
 
-    <span class="k">for</span> <span class="n">inFeature</span> <span class="ow">in</span> <span class="n">inLayer</span><span class="p">:</span>
+        <span class="pl-c">#</span>
+        <span class="pl-c"># approximate the select by only </span>
+        <span class="pl-c"># targeting our fileds of interest</span>
+        <span class="pl-c">#</span>
+        <span class="pl-k">if</span> fieldName <span class="pl-k">not</span> <span class="pl-k">in</span> field_name_target:
 
-        <span class="c"># Create output Feature</span>
+            <span class="pl-k">continue</span>
 
-        <span class="n">outFeature</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">outLayerDefn</span><span class="p">)</span>
+        outLayer.CreateField(fieldDefn)
 
-        <span class="c"># Add field values from input Layer</span>
 
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldCount</span><span class="p">()):</span>
 
-            <span class="n">fieldDefn</span> <span class="o">=</span> <span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="pl-c"># Get the output Layer's Feature Definition</span>
 
-            <span class="n">fieldName</span> <span class="o">=</span> <span class="n">fieldDefn</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span>
+    outLayerDefn <span class="pl-k">=</span> outLayer.GetLayerDefn()
 
-            <span class="c">#</span>
-            <span class="c"># approximate the select by only </span>
-            <span class="c"># targeting our fileds of interest</span>
-            <span class="c">#</span>
-            <span class="k">if</span> <span class="n">fieldName</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">field_name_target</span><span class="p">:</span>
 
-                <span class="k">continue</span>
 
-            <span class="n">outFeature</span><span class="o">.</span><span class="n">SetField</span><span class="p">(</span><span class="n">outLayerDefn</span><span class="o">.</span><span class="n">GetFieldDefn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">GetNameRef</span><span class="p">(),</span> <span class="n">inFeature</span><span class="o">.</span><span class="n">GetField</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="pl-c"># Add features to the ouput Layer</span>
+    <span class="pl-s"><span class="pl-pds">'''</span></span>
+<span class="pl-s">    <span class="pl-k">NOTE</span>: sgillies mentions in a previous pull request</span>
+<span class="pl-s">    that you should use the feature iterator whenever you can to avoid bugs:</span>
+<span class="pl-s"></span>
+<span class="pl-s">        https://github.com/sgillies/py-gdalogr-cookbook/commit/6f658b80e497b1020a0ef89f5dfcdd6860819496</span>
+<span class="pl-s"></span>
+<span class="pl-s">    This is good advice that should be followed. For example, a tricky unexpected</span>
+<span class="pl-s">        bug that's worth pointing out happens if we were to use the folloing non-feature iterator code</span>
+<span class="pl-s">    to loop through our inLayer features. Remember that inLayer has an attribute filter set:</span>
+<span class="pl-s"></span>
+<span class="pl-s">        for i in range(0, inLayer.GetFeatureCount()):</span>
+<span class="pl-s"></span>
+<span class="pl-s">    The GDAL/OGR Python docs point out that osgeo.ogr.Layer.SetAttributeFilter() works via</span>
+<span class="pl-s">    OGR_L_GetNextFeature() function. That means you can still access *any* layer's</span>
+<span class="pl-s">    feature regardless of whether it matches the filter or not using inLayer.GetFeature(&lt;n+&gt;). </span>
+<span class="pl-s">    This can lead to mind-boggling outputs. Using the feature iterator means that each feature</span>
+<span class="pl-s">    returned will respect the attribute filter we set on the layer.</span>
+<span class="pl-s">    <span class="pl-pds">'''</span></span>
 
-        <span class="c"># Set geometry as centroid</span>
+    <span class="pl-k">for</span> inFeature <span class="pl-k">in</span> inLayer:
 
-        <span class="n">geom</span> <span class="o">=</span> <span class="n">inFeature</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
+        <span class="pl-c"># Create output Feature</span>
 
-        <span class="n">outFeature</span><span class="o">.</span><span class="n">SetGeometry</span><span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">Clone</span><span class="p">())</span>
+        outFeature <span class="pl-k">=</span> ogr.Feature(outLayerDefn)
 
-        <span class="c"># Add new feature to output Layer</span>
 
-        <span class="n">outLayer</span><span class="o">.</span><span class="n">CreateFeature</span><span class="p">(</span><span class="n">outFeature</span><span class="p">)</span>
 
-    <span class="c"># Close DataSources</span>
+        <span class="pl-c"># Add field values from input Layer</span>
 
-    <span class="n">inDataSource</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+        <span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">range</span>(<span class="pl-c1">0</span>, outLayerDefn.GetFieldCount()):
 
-    <span class="n">outDataSource</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+            fieldDefn <span class="pl-k">=</span> outLayerDefn.GetFieldDefn(i)
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+            fieldName <span class="pl-k">=</span> fieldDefn.GetName()
 
-    <span class="sd">'''</span>
-<span class="sd">    EXAMPLE RUN: python ogr_api_hydra_filter.py [ FIELD_NAME  FIELD_NAME1  FIELD_NAME2 ]</span>
-<span class="sd">    $ python ogr_api_hydra_filter.py PIN MINOR</span>
-<span class="sd">    '''</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="pl-c">#</span>
+            <span class="pl-c"># approximate the select by only </span>
+            <span class="pl-c"># targeting our fileds of interest</span>
+            <span class="pl-c">#</span>
+            <span class="pl-k">if</span> fieldName <span class="pl-k">not</span> <span class="pl-k">in</span> field_name_target:
 
-        <span class="k">print</span> <span class="s">"[ ERROR ]: you need to pass at least one arg -- the field_name to target"</span>
+                <span class="pl-k">continue</span>
 
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="n">main</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">)</span>
 
+            outFeature.SetField(outLayerDefn.GetFieldDefn(i).GetNameRef(), inFeature.GetField(i))
+
+
+
+        <span class="pl-c"># Set geometry as centroid</span>
+
+        geom <span class="pl-k">=</span> inFeature.GetGeometryRef()
+
+        outFeature.SetGeometry(geom.Clone())
+
+        <span class="pl-c"># Add new feature to output Layer</span>
+
+        outLayer.CreateFeature(outFeature)
+
+
+
+    <span class="pl-c"># Close DataSources</span>
+
+    inDataSource.Destroy()
+
+    outDataSource.Destroy()
+
+
+
+<span class="pl-k">if</span> <span class="pl-c1">__name__</span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">'</span>__main__<span class="pl-pds">'</span></span>:
+
+    <span class="pl-s"><span class="pl-pds">'''</span></span>
+<span class="pl-s">    EXAMPLE RUN: python ogr_api_hydra_filter.py [ FIELD_NAME  FIELD_NAME1  FIELD_NAME2 ]</span>
+<span class="pl-s">    $ python ogr_api_hydra_filter.py PIN MINOR</span>
+<span class="pl-s">    <span class="pl-pds">'''</span></span>
+    <span class="pl-k">if</span> <span class="pl-c1">len</span>( sys.argv ) <span class="pl-k">&lt;</span> <span class="pl-c1">2</span>:
+
+        <span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span>[ ERROR ]: you need to pass at least one arg -- the field_name to target<span class="pl-pds">"</span></span>
+
+        sys.exit(<span class="pl-c1">1</span>)
+
+
+
+    main( sys.argv[<span class="pl-c1">1</span>:] )
 </pre></div>
 </li>
-</ol><hr><h2>
-<a name="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas"><span class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h2>
+</ol>
+
+<hr>
+
+<h2>
+<a id="tricks-trapdoors-gotchas" class="anchor" href="#tricks-trapdoors-gotchas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tricks, Trapdoors, Gotchas</h2>
 
 <p><a name="gotcha"></a>
 The official GDAL/OGR wiki has a long-and-must-read list of <a href="http://trac.osgeo.org/gdal/wiki/PythonGotchas">great gotchas here</a>. I've been bitten
@@ -691,38 +742,36 @@ by the example below:</p>
 I hold a reference to because it will blow shit up. Lesson --
 don't delete the feature unless you know you are done with it:</p>
 
-<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
-<span class="n">shp_path</span> <span class="o">=</span> <span class="s">"C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"</span>
-<span class="n">dSource</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span> <span class="n">shp_path</span> <span class="p">)</span>
-<span class="k">if</span> <span class="n">dSource</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">"[ ERROR ]: datasource cannot be opened"</span>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
+shp_path <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp<span class="pl-pds">"</span></span>
+dSource <span class="pl-k">=</span> ogr.Open( shp_path )
+<span class="pl-k">if</span> dSource <span class="pl-k">is</span> <span class="pl-c1">None</span>:
+    <span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span>[ ERROR ]: datasource cannot be opened<span class="pl-pds">"</span></span>
 
-<span class="n">layer</span> <span class="o">=</span> <span class="n">dSource</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
-<span class="n">feat</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
-<span class="n">geom</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
-<span class="k">del</span> <span class="n">feat</span> <span class="c"># we deleted the parent ref of geom variable</span>
-<span class="k">print</span> <span class="s">"[ DELETED ] feature"</span>
-<span class="k">print</span> <span class="n">geom</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>  <span class="c"># this call will confuse the hell out of OGR</span>
-<span class="k">print</span> <span class="s">"[ DONE ]"</span>  <span class="c"># this will never be reached</span>
-</pre></div>
+layer <span class="pl-k">=</span> dSource.GetLayer()
+feat <span class="pl-k">=</span> layer.GetNextFeature()
+geom <span class="pl-k">=</span> feat.GetGeometryRef()
+<span class="pl-k">del</span> feat <span class="pl-c"># we deleted the parent ref of geom variable</span>
+<span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span>[ DELETED ] feature<span class="pl-pds">"</span></span>
+<span class="pl-c1">print</span> geom.ExportToWkt()  <span class="pl-c"># this call will confuse the hell out of OGR</span>
+<span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span>[ DONE ]<span class="pl-pds">"</span></span>  <span class="pl-c"># this will never be reached</span></pre></div>
 </li>
 <li>
 <p>Example where we lose feature ref because we are looping through all features
 and only care about geometries:</p>
 
-<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
-<span class="n">shp_path</span> <span class="o">=</span> <span class="s">"C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp"</span>
-<span class="n">dSource</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span> <span class="n">shp_path</span> <span class="p">)</span>
-<span class="k">if</span> <span class="n">dSource</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s">"[ ERROR ]: datasource cannot be opened"</span>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
+shp_path <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>C:\Users\gcorradini\Desktop\PYTHON_OGR\DATA\parcel_SHP\parcel\parcel.shp<span class="pl-pds">"</span></span>
+dSource <span class="pl-k">=</span> ogr.Open( shp_path )
+<span class="pl-k">if</span> dSource <span class="pl-k">is</span> <span class="pl-c1">None</span>:
+    <span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span>[ ERROR ]: datasource cannot be opened<span class="pl-pds">"</span></span>
 
-<span class="n">layer</span> <span class="o">=</span> <span class="n">dSource</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
-<span class="n">geom_collection</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">layer</span><span class="p">:</span>
-        <span class="n">geom</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
-        <span class="n">geom_collection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">geom</span> <span class="p">)</span>
-<span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">geom_collection</span><span class="p">:</span> <span class="k">print</span> <span class="n">g</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>
-</pre></div>
+layer <span class="pl-k">=</span> dSource.GetLayer()
+geom_collection <span class="pl-k">=</span> []
+<span class="pl-k">for</span> feat <span class="pl-k">in</span> layer:
+        geom <span class="pl-k">=</span> feat.GetGeometryRef()
+        geom_collection.append( geom )
+<span class="pl-k">for</span> g <span class="pl-k">in</span> geom_collection: <span class="pl-c1">print</span> g.ExportToWkt()</pre></div>
 </li>
 <li>
 <p>Tricky tricky example that took awhile to figure out. My output 
@@ -735,48 +784,53 @@ and this becomes problematic because you might loop through the layer
 using <code>Layer.GetFeatureCount</code> as in the example below. Sean Gillies has a pull
 request which talks about using the iterator to avoid bugs. </p>
 
-<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">ogr</span>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> osgeo <span class="pl-k">import</span> ogr
 
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="pl-k">import</span> os, sys
 
-<span class="c"># Get the input Layer</span>
 
-<span class="n">inShapefile</span> <span class="o">=</span> <span class="s">"/home/gcorradini/Dropbox/LINUX_BASE_WORKSPACE/DATA/SHAPES/KC_ADMIN/parcel_address/parcel_address.shp"</span>
+<span class="pl-c"># Get the input Layer</span>
 
-<span class="n">inDriver</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s">"ESRI Shapefile"</span><span class="p">)</span>
+inShapefile <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>/home/gcorradini/Dropbox/LINUX_BASE_WORKSPACE/DATA/SHAPES/KC_ADMIN/parcel_address/parcel_address.shp<span class="pl-pds">"</span></span>
 
-<span class="n">inDataSource</span> <span class="o">=</span> <span class="n">inDriver</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">inShapefile</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+inDriver <span class="pl-k">=</span> ogr.GetDriverByName(<span class="pl-s"><span class="pl-pds">"</span>ESRI Shapefile<span class="pl-pds">"</span></span>)
 
-<span class="n">inLayer</span> <span class="o">=</span> <span class="n">inDataSource</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+inDataSource <span class="pl-k">=</span> inDriver.Open(inShapefile, <span class="pl-c1">0</span>)
 
-<span class="n">inLayer</span><span class="o">.</span><span class="n">SetAttributeFilter</span><span class="p">(</span><span class="s">"PIN = '0000200001'"</span><span class="p">)</span> <span class="c"># filter only one record</span>
+inLayer <span class="pl-k">=</span> inDataSource.GetLayer()
 
-<span class="c">#</span>
-<span class="c">#  GOTCHA: we can still access features</span>
-<span class="c">#  that are not covered by the filter </span>
-<span class="c">#  using inLayer.GetFeature(&lt;n+&gt;)</span>
-<span class="c">#  </span>
-<span class="k">print</span> <span class="s">"</span><span class="se">\n</span><span class="s">Features not covered by attribute filter, but still accessible ( YIKES! )..."</span>
-<span class="c">#  imagine that this next line was `for i in range(0, inLayer.GetFeatureCount() )`</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="n">feat</span> <span class="o">=</span> <span class="n">inLayer</span><span class="o">.</span><span class="n">GetFeature</span><span class="p">(</span> <span class="n">i</span> <span class="p">)</span>
-    <span class="k">print</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetField</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+inLayer.SetAttributeFilter(<span class="pl-s"><span class="pl-pds">"</span>PIN = '0000200001'<span class="pl-pds">"</span></span>) <span class="pl-c"># filter only one record</span>
 
-<span class="c">#</span>
-<span class="c">#  CORRECT: the filter is only</span>
-<span class="c">#  respected if we use the iterator</span>
-<span class="c">#  OGR_L_GetNextFeature()</span>
-<span class="c">#  which, looping through the inLayer</span>
-<span class="c">#  accomplishes</span>
-<span class="c">#</span>
-<span class="k">print</span> <span class="s">"</span><span class="se">\n</span><span class="s">Features covered by attribute filter..."</span>
-<span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">inLayer</span><span class="p">:</span>
-    <span class="k">print</span> <span class="n">feat</span><span class="o">.</span><span class="n">GetField</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c"># this should only print one feature</span>
+<span class="pl-c">#</span>
+<span class="pl-c">#  GOTCHA: we can still access features</span>
+<span class="pl-c">#  that are not covered by the filter </span>
+<span class="pl-c">#  using inLayer.GetFeature(&lt;n+&gt;)</span>
+<span class="pl-c">#  </span>
+<span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\n</span>Features not covered by attribute filter, but still accessible ( YIKES! )...<span class="pl-pds">"</span></span>
+<span class="pl-c">#  imagine that this next line was `for i in range(0, inLayer.GetFeatureCount() )`</span>
+<span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">range</span>(<span class="pl-c1">0</span>, <span class="pl-c1">10</span>):
+    feat <span class="pl-k">=</span> inLayer.GetFeature( i )
+    <span class="pl-c1">print</span> feat.GetField(<span class="pl-c1">1</span>)
 
+
+<span class="pl-c">#</span>
+<span class="pl-c">#  CORRECT: the filter is only</span>
+<span class="pl-c">#  respected if we use the iterator</span>
+<span class="pl-c">#  OGR_L_GetNextFeature()</span>
+<span class="pl-c">#  which, looping through the inLayer</span>
+<span class="pl-c">#  accomplishes</span>
+<span class="pl-c">#</span>
+<span class="pl-c1">print</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\n</span>Features covered by attribute filter...<span class="pl-pds">"</span></span>
+<span class="pl-k">for</span> feat <span class="pl-k">in</span> inLayer:
+    <span class="pl-c1">print</span> feat.GetField(<span class="pl-c1">1</span>) <span class="pl-c"># this should only print one feature</span>
 </pre></div>
 </li>
-</ol><hr><h2>
-<a name="giving-back-contributing-to-the-cookbook" class="anchor" href="#giving-back-contributing-to-the-cookbook"><span class="octicon octicon-link"></span></a>Giving Back: Contributing to the Cookbook</h2>
+</ol>
+
+<hr>
+
+<h2>
+<a id="giving-back-contributing-to-the-cookbook" class="anchor" href="#giving-back-contributing-to-the-cookbook" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Giving Back: Contributing to the Cookbook</h2>
 
 <p><a name="give_back"></a></p>
 
@@ -786,11 +840,18 @@ to the project.</p>
 <ol>
 <li><p><em>Create an Issue</em> -- if you don't see an example that you would like to see. Create an <a href="https://github.com/pcjericks/py-gdalogr-cookbook/issues?page=1&amp;state=open">issue on the repo</a></p></li>
 <li><p><em>Solve Issues -- Pull Request</em> -- if you like to solve issues too, then fork the repo, clone the code and <a href="https://help.github.com/articles/creating-a-pull-request">create a pull request</a> for each issue you fix. It's nice to put he issue # in the commit hook like these <a href="https://github.com/pcjericks/py-gdalogr-cookbook/issues?page=1&amp;state=closed">examples show</a></p></li>
-</ol><hr><h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+</ol>
+
+<hr>
+
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
 <p>Thanks to the developers at Pierce County GIS <a href="https://github.com/jericks" class="user-mention">@jericks</a>, Cort Daniels, Michael Payne. Additional thanks to Greg Corradini.</p>
       </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
 		
